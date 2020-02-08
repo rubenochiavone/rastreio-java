@@ -25,5 +25,8 @@ build:
 
 test:
   stage: test
+  coverage: '/Total.*?(\d+)%/'
   script:
     - ./gradlew check
+    - ./gradlew jacocoTestReport
+    - cat build/jacocoHtml/index.html | grep -o '<tfoot>.*</tfoot>'
