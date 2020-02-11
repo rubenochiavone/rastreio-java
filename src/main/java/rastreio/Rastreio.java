@@ -21,23 +21,68 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/**
+ * Get tracking object data by scrapping Correios' HTML server response.
+ * 
+ * Example of tracking an object in another thread:
+ * 
+ * <pre>
+ *   Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+ *     @Override
+ *     public void onSuccess(TrackObject trackObject) {
+ *       // Use this tracking object
+ *     }
+ *   
+ *     @Override
+ *     public void onFailure(Exception e) {
+ *       // Report exception
+ *       e.printStackTrace();
+ *     }
+ *   });
+ * </pre>
+ * 
+ * See {@link Rastreio#track(String, Listener)} for more information.
+ * 
+ * Also it is possible to wait until operation is completed in the same thread:
+ * 
+ * <pre>
+ *   try {
+ *     TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
+ *     // Use this tracking object
+ *   } catch (IOException e) {
+ *     // Report exception
+ *     e.printStackTrace();
+ *   }
+ * </pre>
+ * 
+ * See {@link Rastreio#trackSync(String)} for more information.
+ * 
+ * @see Listener
+ * @see TrackObject
+ */
 public class Rastreio {
-
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
   private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
   /**
-   * Track an object by its code asynchronously
+   * Track an object by its code asynchronously.
    * 
-   * @param objectCode
-   * @return
+   * When track operation finishes listener is called with result.
+   * 
+   * @param objectCode string representing object track code
+   * @param listener listener to be called when object tracking is completed
+   * @throws NullPointerException if {@code objectCode} or {@code listener} is null
+   * @throws IllegalArgumentException if {@code objectCode} is empty
+   * @see Listener
+   * @see TrackObject
    */
-  public static void track(String objectCode, Listener listener) throws IOException {
-    if (objectCode == null || objectCode.isEmpty()) {
-      throw new IllegalArgumentException("Rastreio.track: invalid object code");
-    }
-    if (listener == null) {
+  public static void track(String objectCode, Listener listener) {
+    if (objectCode == null || listener == null) {
       throw new NullPointerException("Rastreio.track: null listener");
+    }
+    // TODO: validate object code
+    if (objectCode.isEmpty()) {
+      throw new IllegalArgumentException("Rastreio.track: invalid object code");
     }
     HTTP_CLIENT.newCall(newRequest(objectCode)).enqueue(new Callback() {
       @Override
@@ -63,14 +108,20 @@ public class Rastreio {
   }
 
   /**
-   * Track an object by its code synchronously
+   * Track an object by its code synchronously.
    * 
-   * @param objectCode
-   * @return
+   * @param objectCode string representing object track code
+   * @throws IOException if an network error occur
+   * @throws NullPointerException if {@code objectCode} or {@code listener} is null
+   * @throws IllegalArgumentException if {@code objectCode} is empty
    */
   public static TrackObject trackSync(String objectCode) throws IOException {
-    if (objectCode == null || objectCode.isEmpty()) {
-      throw new IllegalArgumentException("Rastreio.trackSync: invalid object code");
+    if (objectCode == null) {
+      throw new NullPointerException("Rastreio.track: null listener");
+    }
+    // TODO: validate object code
+    if (objectCode.isEmpty()) {
+      throw new IllegalArgumentException("Rastreio.track: invalid object code");
     }
     try (Response response = HTTP_CLIENT.newCall(newRequest(objectCode)).execute()) {
       if (!response.isSuccessful()) {
@@ -199,7 +250,16 @@ public class Rastreio {
   }
 
   public static interface Listener {
+    /**
+     * Called when object tracking is completed with success
+     * @param trackObject tracking object result
+     */
     void onSuccess(TrackObject trackObject);
+
+    /**
+     * Called when object tracking fails
+     * @param exception failure explanation
+     */
     void onFailure(Exception exception);
   }
 }

@@ -12,8 +12,8 @@ public class TrackObjectTest {
     assertNull(trackObject.getPostedAt());
     assertNull(trackObject.getUpdatedAt());
     assertNull(trackObject.getError());
-    assertFalse(trackObject.IsDelivered());
-    assertFalse(trackObject.IsValid());
+    assertFalse(trackObject.isDelivered());
+    assertFalse(trackObject.isValid());
   }
 
   @Test

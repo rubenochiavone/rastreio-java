@@ -22,10 +22,20 @@ public class RastreioTest {
     try {
       Rastreio.track(null, dummyListener);
 
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
+      fail("Should have thrown NullPointerException");
+    } catch (NullPointerException e) {
       assertTrue(true);
-    } catch (IOException e) {
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      Rastreio.track("JT124720455BR", null);
+
+      fail("Should have thrown NullPointerException");
+    } catch (NullPointerException e) {
+      assertTrue(true);
+    } catch (Exception e) {
       fail(e.getMessage());
     }
 
@@ -35,7 +45,7 @@ public class RastreioTest {
       fail("Should have thrown IllegalArgumentException");
     } catch (IllegalArgumentException e) {
       assertTrue(true);
-    } catch (IOException e) {
+    } catch (Exception e) {
       fail(e.getMessage());
     }
 
@@ -46,7 +56,7 @@ public class RastreioTest {
         public void onSuccess(TrackObject trackObject) {
           assertNotNull(trackObject);
           assertEquals("JT124720455BR", trackObject.getCode());
-          assertFalse(trackObject.IsValid());
+          assertFalse(trackObject.isValid());
           assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
         }
       
@@ -55,7 +65,7 @@ public class RastreioTest {
           fail(e.getMessage());
         }
       });
-    } catch (IOException e) {
+    } catch (Exception e) {
       fail(e.getMessage());
     }
   }
@@ -65,8 +75,8 @@ public class RastreioTest {
     try {
       Rastreio.trackSync(null);
 
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
+      fail("Should have thrown NullPointerException");
+    } catch (NullPointerException e) {
       assertTrue(true);
     } catch (IOException e) {
       fail(e.getMessage());
@@ -87,7 +97,7 @@ public class RastreioTest {
 
       assertNotNull(trackObject);
       assertEquals("JT124720455BR", trackObject.getCode());
-      assertFalse(trackObject.IsValid());
+      assertFalse(trackObject.isValid());
       assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
     } catch (IOException e) {
       fail(e.getMessage());
@@ -100,8 +110,8 @@ public class RastreioTest {
 
       assertNotNull(trackObject);
       assertEquals("LO637869431CN", trackObject.getCode());
-      assertTrue(trackObject.IsValid());
-      assertTrue(trackObject.IsDelivered());
+      assertTrue(trackObject.isValid());
+      assertTrue(trackObject.isDelivered());
       assertEquals(Error.NO_ERROR, trackObject.getError());
       calendar.set(2019, 11, 17, 13, 22, 0);
       assertEquals(calendar.getTime().getDate(), trackObject.getPostedAt().getDate());
