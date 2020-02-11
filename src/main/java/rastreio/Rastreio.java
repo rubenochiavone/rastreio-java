@@ -28,12 +28,10 @@ import org.jsoup.select.Elements;
  * 
  * <pre>
  *   Rastreio.track("JT124720455BR", new Rastreio.Listener() {
- *     @Override
  *     public void onSuccess(TrackObject trackObject) {
  *       // Use this tracking object
  *     }
  *   
- *     @Override
  *     public void onFailure(Exception e) {
  *       // Report exception
  *       e.printStackTrace();
@@ -114,6 +112,7 @@ public class Rastreio {
    * @throws IOException if an network error occur
    * @throws NullPointerException if {@code objectCode} or {@code listener} is null
    * @throws IllegalArgumentException if {@code objectCode} is empty
+   * @return new tracking object to query tracking data
    */
   public static TrackObject trackSync(String objectCode) throws IOException {
     if (objectCode == null) {

@@ -62,7 +62,7 @@ public class TrackObject {
 
   /**
    * Set whether this tracking object is valid.
-   * @param valid
+   * @param valid whether this tracking object is valid
    */
   public void setValid(boolean valid) {
     mIsValid = valid;
