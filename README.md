@@ -1,5 +1,7 @@
 # rastreio-java
 
+[![Build status](https://gitlab.com/rubenochiavone/rastreio-java/badges/master/pipeline.svg)](https://gitlab.com/rubenochiavone/rastreio-java/-/commits/master) [![Coverage report](https://gitlab.com/rubenochiavone/rastreio-java/badges/master/coverage.svg)](https://gitlab.com/rubenochiavone/rastreio-java/-/commits/master)
+
 A Java library for tracking Correios' shipments. Heavily inspired by https://github.com/talesluna/rastrojs.
 
 ## Installation
