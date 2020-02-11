@@ -6,7 +6,30 @@ A Java library for tracking Correios' shipments. Heavily inspired by https://git
 
 ## Installation
 
-`TODO: publish to jcenter and reference here.`
+### Gradle
+
+```groovy
+implementation 'rastreio:rastreio-java:1.0.0'
+```
+
+### Maven
+
+```xml
+<dependency>
+  <groupId>rastreio</groupId>
+  <artifactId>rastreio-java</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
+</dependency>
+```
+
+### Ivy
+
+```xml
+<dependency org='rastreio' name='rastreio-java' rev='1.0.0'>
+  <artifact name='rastreio-java' ext='pom' ></artifact>
+</dependency>
+```
 
 ## Usage
 
