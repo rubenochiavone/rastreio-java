@@ -114,17 +114,11 @@ public class RastreioTest {
       assertTrue(trackObject.isDelivered());
       assertEquals(Error.NO_ERROR, trackObject.getError());
       calendar.set(2019, 11, 17, 13, 22, 0);
-      assertEquals(calendar.getTime().getDate(), trackObject.getPostedAt().getDate());
-      assertEquals(calendar.getTime().getMonth(), trackObject.getPostedAt().getMonth());
-      assertEquals(calendar.getTime().getYear(), trackObject.getPostedAt().getYear());
-      assertEquals(calendar.getTime().getHours(), trackObject.getPostedAt().getHours());
-      assertEquals(calendar.getTime().getMinutes(), trackObject.getPostedAt().getMinutes());
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getPostedAt());
       calendar.set(2020, 1, 5, 14, 52, 0);
-      assertEquals(calendar.getTime().getDate(), trackObject.getUpdatedAt().getDate());
-      assertEquals(calendar.getTime().getMonth(), trackObject.getUpdatedAt().getMonth());
-      assertEquals(calendar.getTime().getYear(), trackObject.getUpdatedAt().getYear());
-      assertEquals(calendar.getTime().getHours(), trackObject.getUpdatedAt().getHours());
-      assertEquals(calendar.getTime().getMinutes(), trackObject.getUpdatedAt().getMinutes());
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
       assertNotNull(trackObject.getEvents());
       assertEquals(10, trackObject.getEvents().size());
       // First event
@@ -133,18 +127,27 @@ public class RastreioTest {
       assertEquals("Objeto postado", event.getDescription());
       assertNull(event.getDetails());
       assertEquals("CHINA /", event.getLocale());
+      calendar.set(2019, 11, 17, 13, 22, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
       // Event with details
       event = trackObject.getEvents().get(5);
       assertNotNull(event);
       assertEquals("Objeto encaminhado", event.getDescription());
       assertEquals("de Unidade de Distribuição em CURITIBA / PR para Unidade de Tratamento em CAJAMAR / SP", event.getDetails());
       assertEquals("CURITIBA / PR", event.getLocale());
+      calendar.set(2020, 0, 28, 10, 2, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
       // Last event
       event = trackObject.getEvents().get(9);
       assertNotNull(event);
       assertEquals("Objeto entregue ao destinatário", event.getDescription());
       assertNull(event.getDetails());
       assertEquals("Extremoz / RN", event.getLocale());
+      calendar.set(2020, 1, 5, 14, 52, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
     } catch (IOException e) {
       fail(e.getMessage());
     }

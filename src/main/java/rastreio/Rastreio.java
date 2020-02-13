@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -60,7 +59,7 @@ import org.jsoup.select.Elements;
  */
 public class Rastreio {
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
-  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss SSS");
 
   /**
    * Track an object by its code asynchronously.
@@ -222,7 +221,7 @@ public class Rastreio {
       event.setDescription(description);
       event.setDetails(details);
       try {
-        event.setTrackedAt(DATE_FORMAT.parse(eventDate + " " + eventTime));
+        event.setTrackedAt(DATE_FORMAT.parse(eventDate + " " + eventTime + ":00 000"));
       } catch (ParseException e) {
         System.out.println("Rastreio.parseResponse: couldn't parse event date and time properly");
         continue; // Skip invalid table row
