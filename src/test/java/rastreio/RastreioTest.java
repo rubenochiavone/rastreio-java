@@ -66,6 +66,9 @@ public class RastreioTest {
         public void onSuccess(TrackObject trackObject) {
           assertNotNull(trackObject);
           assertEquals("JT124720455BR", trackObject.getCode());
+          assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+          assertEquals("JT", trackObject.getServiceType().getInitials());
+          assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
           assertFalse(trackObject.isValid());
           assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
         }
@@ -117,6 +120,9 @@ public class RastreioTest {
 
       assertNotNull(trackObject);
       assertEquals("JT124720455BR", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+      assertEquals("JT", trackObject.getServiceType().getInitials());
+      assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
       assertFalse(trackObject.isValid());
       assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
     } catch (IOException e) {
@@ -130,6 +136,9 @@ public class RastreioTest {
 
       assertNotNull(trackObject);
       assertEquals("LO637869431CN", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.UNKNOWN, trackObject.getServiceType());
+      assertEquals("", trackObject.getServiceType().getInitials());
+      assertEquals("", trackObject.getServiceType().getDescription());
       assertTrue(trackObject.isValid());
       assertTrue(trackObject.isDelivered());
       assertEquals(Error.NO_ERROR, trackObject.getError());
@@ -179,6 +188,9 @@ public class RastreioTest {
 
       assertNotNull(trackObject);
       assertEquals("LB107580877SG", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.LB, trackObject.getServiceType());
+      assertEquals("LB", trackObject.getServiceType().getInitials());
+      assertEquals("LOGÍSTICA REVERSA SIMULTÂNEA SEDEX", trackObject.getServiceType().getDescription());
       assertTrue(trackObject.isValid());
       assertTrue(trackObject.isDelivered());
       assertEquals(Error.NO_ERROR, trackObject.getError());

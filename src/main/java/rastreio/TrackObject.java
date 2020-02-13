@@ -9,9 +9,13 @@ import java.util.regex.Pattern;
  */
 public class TrackObject {
   /**
-   * Object tracking code
+   * Tracking object code
    */
   private String mCode;
+  /**
+   * Tracking object service type
+   */
+  private TrackObjectServiceType mServiceType;
   /**
    * Whether this tracking object is valid
    */
@@ -38,19 +42,35 @@ public class TrackObject {
   private Error mError;
 
   /**
-   * Get object tracking code.
-   * @return object tracking code
+   * Get tracking object code.
+   * @return tracking object code
    */
   public String getCode() {
     return mCode;
   }
 
   /**
-   * Set object tracking code.
-   * @param code new object code
+   * Set tracking object code.
+   * @param code new tracking object code
    */
   public void setCode(String code) {
     mCode = code;
+  }
+
+  /**
+   * Get tracking object service type.
+   * @return tracking object service type
+   */
+  public TrackObjectServiceType getServiceType() {
+    return mServiceType;
+  }
+
+  /**
+   * Set tracking object service type.
+   * @param serviceType tracking object service type
+   */
+  public void setServiceType(TrackObjectServiceType serviceType) {
+    mServiceType = serviceType;
   }
 
   /**

@@ -94,11 +94,8 @@ public class Rastreio {
             listener.onFailure(new IOException("Rastreio.track: errorneous HTTP response code " + response));
           }
 
-          // Parse response
-          TrackObject trackObject = parseResponse(responseBody.string());
-          trackObject.setCode(objectCode);
-
-          listener.onSuccess(trackObject);
+          // Parse response and notify listener about new tacking object
+          listener.onSuccess(parseResponse(objectCode, responseBody.string()));
         }
       }
     });
@@ -115,26 +112,29 @@ public class Rastreio {
    */
   public static TrackObject trackSync(String objectCode) throws IOException {
     if (objectCode == null) {
-      throw new NullPointerException("Rastreio.track: null listener");
+      throw new NullPointerException("Rastreio.trackSync: null listener");
     }
     // Validate object code
     if (objectCode.isEmpty() || !TrackObject.Code.validate(objectCode)) {
-      throw new IllegalArgumentException("Rastreio.track: invalid object code");
+      throw new IllegalArgumentException("Rastreio.trackSync: invalid object code");
     }
     try (Response response = HTTP_CLIENT.newCall(newRequest(objectCode)).execute()) {
       if (!response.isSuccessful()) {
         throw new IOException("Rastreio.trackSync: errorneous HTTP response code " + response);
       }
       
-      // Parse response
-      TrackObject trackObject = parseResponse(response.body().string());
-      trackObject.setCode(objectCode);
-      return trackObject;
+      // Parse response and return new tacking object
+      return parseResponse(objectCode, response.body().string());
     } catch (IOException e) {
       throw new IOException("Rastreio.trackSync: unable to fullfill HTTP request", e);
     }
   }
 
+  /**
+   * Create new request object.
+   * @param objectCode tracking object code
+   * @return new request object
+   */
   private static Request newRequest(String objectCode) {
     RequestBody formBody = new FormBody.Builder()
       .add("objetos", objectCode)
@@ -148,8 +148,24 @@ public class Rastreio {
     return request;
   }
 
-  private static TrackObject parseResponse(String response) {
+  /**
+   * Parse response data and create new tracking object.
+   * @param objectCode tracking object code
+   * @param response response data to be parsed
+   * @return new tracking object
+   */
+  private static TrackObject parseResponse(String objectCode, String response) {
+    TrackObjectServiceType serviceType = TrackObjectServiceType.UNKNOWN;
+
+    try {
+      serviceType = TrackObjectServiceType.valueOf(objectCode.substring(0, 2));
+    } catch (Exception e) {
+      // ignore
+    }
+
     TrackObject trackObject = new TrackObject();
+    trackObject.setCode(objectCode);
+    trackObject.setServiceType(serviceType);
     trackObject.setError(Error.OBJECT_NOT_FOUND);
     trackObject.setValid(false);
     trackObject.setDelivered(false);
