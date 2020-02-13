@@ -50,6 +50,16 @@ public class RastreioTest {
     }
 
     try {
+      Rastreio.track("invalid", dummyListener);
+
+      fail("Should have thrown IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      assertTrue(true);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
       Rastreio.track("JT124720455BR", new Rastreio.Listener() {
       
         @Override
@@ -91,7 +101,17 @@ public class RastreioTest {
     } catch (IOException e) {
       fail(e.getMessage());
     }
-    
+
+    try {
+      Rastreio.trackSync("invalid");
+
+      fail("Should have thrown IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+      assertTrue(true);
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
     try {
       TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
 
@@ -200,5 +220,21 @@ public class RastreioTest {
     } catch (IOException e) {
       fail(e.getMessage());
     }
+  }
+
+  @Test
+  public void testValidateObjectCode() {
+    // Invalid object codes
+    assertFalse(TrackObject.Code.validate(null));
+    assertFalse(TrackObject.Code.validate(""));
+    assertFalse(TrackObject.Code.validate("ab999cd"));
+    assertFalse(TrackObject.Code.validate("AB12345678CD"));
+    assertFalse(TrackObject.Code.validate("Lorem Ipsum is simply dummy text of the printing and typesetting industry."));
+
+    // Valid object codes
+    assertTrue(TrackObject.Code.validate("AB123456789CD"));
+    assertTrue(TrackObject.Code.validate("JT124720455BR"));
+    assertTrue(TrackObject.Code.validate("LO637869431CN"));
+    assertTrue(TrackObject.Code.validate("LB107580877SG"));
   }
 }

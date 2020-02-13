@@ -69,7 +69,7 @@ public class Rastreio {
    * @param objectCode string representing object track code
    * @param listener listener to be called when object tracking is completed
    * @throws NullPointerException if {@code objectCode} or {@code listener} is null
-   * @throws IllegalArgumentException if {@code objectCode} is empty
+   * @throws IllegalArgumentException if {@code objectCode} is empty or invalid
    * @see Listener
    * @see TrackObject
    */
@@ -77,8 +77,8 @@ public class Rastreio {
     if (objectCode == null || listener == null) {
       throw new NullPointerException("Rastreio.track: null listener");
     }
-    // TODO: validate object code
-    if (objectCode.isEmpty()) {
+    // Validate object code
+    if (objectCode.isEmpty() || !TrackObject.Code.validate(objectCode)) {
       throw new IllegalArgumentException("Rastreio.track: invalid object code");
     }
     HTTP_CLIENT.newCall(newRequest(objectCode)).enqueue(new Callback() {
@@ -110,15 +110,15 @@ public class Rastreio {
    * @param objectCode string representing object track code
    * @throws IOException if an network error occur
    * @throws NullPointerException if {@code objectCode} or {@code listener} is null
-   * @throws IllegalArgumentException if {@code objectCode} is empty
+   * @throws IllegalArgumentException if {@code objectCode} is empty or invalid
    * @return new tracking object to query tracking data
    */
   public static TrackObject trackSync(String objectCode) throws IOException {
     if (objectCode == null) {
       throw new NullPointerException("Rastreio.track: null listener");
     }
-    // TODO: validate object code
-    if (objectCode.isEmpty()) {
+    // Validate object code
+    if (objectCode.isEmpty() || !TrackObject.Code.validate(objectCode)) {
       throw new IllegalArgumentException("Rastreio.track: invalid object code");
     }
     try (Response response = HTTP_CLIENT.newCall(newRequest(objectCode)).execute()) {

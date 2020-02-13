@@ -2,6 +2,7 @@ package rastreio;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * Shipment tracking object.
@@ -148,6 +149,24 @@ public class TrackObject {
    */
   public void setError(Error error) {
     mError = error;
+  }
+
+  public static class Code {
+    private static final Pattern OBJECT_CODE_PATTERN = Pattern.compile("[A-Z]{2}[0-9]{9}[A-Z]{2}");
+
+    /**
+     * Validates object code format.
+     * 
+     * @param objectCode
+     * @return {@code true} if object code is valid and {@code false} otherwise
+     * @see https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/como-rastrear-um-objeto
+     */
+    public static boolean validate(String objectCode) {
+      if (objectCode == null) {
+        return false;
+      }
+      return OBJECT_CODE_PATTERN.matcher(objectCode).matches();
+    }
   }
 
   /**
