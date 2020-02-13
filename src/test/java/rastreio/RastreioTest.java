@@ -151,5 +151,54 @@ public class RastreioTest {
     } catch (IOException e) {
       fail(e.getMessage());
     }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("LB107580877SG");
+
+      Calendar calendar = Calendar.getInstance();
+
+      assertNotNull(trackObject);
+      assertEquals("LB107580877SG", trackObject.getCode());
+      assertTrue(trackObject.isValid());
+      assertTrue(trackObject.isDelivered());
+      assertEquals(Error.NO_ERROR, trackObject.getError());
+      calendar.set(2020, 0, 16, 21, 2, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getPostedAt());
+      calendar.set(2020, 1, 11, 15, 44, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
+      assertNotNull(trackObject.getEvents());
+      assertEquals(9, trackObject.getEvents().size());
+      // First event
+      TrackObject.Event event = trackObject.getEvents().get(0);
+      assertNotNull(event);
+      assertEquals("Objeto encaminhado", event.getDescription());
+      assertEquals("de País em CINGAPURA / para País em Unidade de Tratamento Internacional / BR", event.getDetails());
+      assertEquals("CINGAPURA /", event.getLocale());
+      calendar.set(2020, 0, 16, 21, 2, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Event with details
+      event = trackObject.getEvents().get(5);
+      assertNotNull(event);
+      assertEquals("Objeto encaminhado", event.getDescription());
+      assertEquals("de Unidade de Tratamento em RECIFE / PE para Unidade de Distribuição em NATAL / RN", event.getDetails());
+      assertEquals("RECIFE / PE", event.getLocale());
+      calendar.set(2020, 0, 30, 23, 0, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(8);
+      assertNotNull(event);
+      assertEquals("Objeto entregue ao destinatário", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("Natal / RN", event.getLocale());
+      calendar.set(2020, 1, 11, 15, 44, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
   }
 }
