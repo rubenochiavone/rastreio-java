@@ -177,12 +177,12 @@ public class TrackObject {
     /**
      * Validates object code format.
      * 
-     * @param objectCode
+     * @param objectCode tracking object code
      * @return {@code true} if object code is valid and {@code false} otherwise
-     * @see https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/como-rastrear-um-objeto
+     * @see <a href="https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/como-rastrear-um-objeto"></a>
      */
     public static boolean validate(String objectCode) {
-      if (objectCode == null) {
+      if (objectCode == null || objectCode.isEmpty()) {
         return false;
       }
       return OBJECT_CODE_PATTERN.matcher(objectCode).matches();
