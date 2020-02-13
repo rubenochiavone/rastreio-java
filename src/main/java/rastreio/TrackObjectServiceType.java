@@ -1,7 +1,7 @@
 package rastreio;
 
 /**
- * Inferred track object label from object code.
+ * Inferred tracking object service type from object code.
  * @see https://www.correios.com.br/enviar-e-receber/precisa-de-ajuda/siglas-utilizadas-no-rastreamento-de-objeto
  */
 public enum TrackObjectServiceType {
