@@ -76,8 +76,8 @@ publishing {
             from components.java
             artifact sourcesJar
             artifact javadocJar
-            groupId 'rastreio'
-            artifactId 'rastreio-java'
+            groupId 'java.rastreio'
+            artifactId 'rastreio'
             version '1.0.0'
             pom.withXml {
                 def root = asNode()
