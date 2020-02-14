@@ -199,12 +199,12 @@ public class Rastreio {
 
       String eventListFirstDataHtml = eventListFirstData.html();
       String[] eventListFirstDataPieces = eventListFirstDataHtml.trim().split("<br>");
-      
+
       if (eventListFirstDataPieces.length != 3) {
         System.out.println("Rastreio.parseResponse: couldn't parse first table data element properly");
         continue; // Skip invalid table row
       }
-      
+
       eventDate = eventListFirstDataPieces[0].trim();
       eventTime = eventListFirstDataPieces[1].trim();
 
@@ -216,19 +216,24 @@ public class Rastreio {
         locale = eventListFirstDataPieces[2].trim();
       }
 
+      String eventListLastDataHtml = eventListLastData.html();
+      String[] eventListLastDataPieces = eventListLastDataHtml.trim().split("<br>");
+
       elements = eventListLastData.getElementsByTag("strong");
 
-      if (elements.isEmpty()) {
+      if (!elements.isEmpty()) {
+        // Get `strong` node content
+        description = elements.first().text().trim();
+      } else if (eventListLastDataPieces.length > 0) {
+        // Get first string element as event description
+        description = eventListLastDataPieces[0].trim();
+      } else {
         System.out.println("Rastreio.parseResponse: couldn't parse last table data element properly");
         continue; // Skip invalid table row
       }
 
-      description = elements.first().text().trim();
-
-      String eventListLastDataHtml = eventListLastData.html();
-      String[] eventListLastDataPieces = eventListLastDataHtml.trim().split("<br>");
-      
-      if (eventListLastDataPieces.length == 2) {
+      if (eventListLastDataPieces.length > 1) {
+        // Get second string element as event details
         details = eventListLastDataPieces[1].trim();
       }
 

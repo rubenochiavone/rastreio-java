@@ -232,5 +232,57 @@ public class RastreioTest {
     } catch (IOException e) {
       fail(e.getMessage());
     }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("RH117939038TR");
+
+      Calendar calendar = Calendar.getInstance();
+
+      assertNotNull(trackObject);
+      assertEquals("RH117939038TR", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.RH, trackObject.getServiceType());
+      assertEquals("RH", trackObject.getServiceType().getInitials());
+      assertEquals("REGISTRADO COM AR DIGITAL", trackObject.getServiceType().getDescription());
+      assertTrue(trackObject.isValid());
+      assertTrue(!trackObject.isDelivered());
+      assertEquals(Error.NO_ERROR, trackObject.getError());
+      calendar.set(2019, 10, 27, 10, 27, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getPostedAt());
+      calendar.set(2020, 0, 30, 7, 41, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
+      assertNotNull(trackObject.getEvents());
+      assertEquals(9, trackObject.getEvents().size());
+      // First event
+      TrackObject.Event event = trackObject.getEvents().get(0);
+      assertNotNull(event);
+      assertEquals("Objeto postado", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("TURQUIA /", event.getLocale());
+      calendar.set(2019, 10, 27, 10, 27, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Event with details
+      event = trackObject.getEvents().get(4);
+      assertNotNull(event);
+      assertEquals("Não foi autorizada a entrada do objeto no país pelos órgãos fiscalizadores", event.getDescription());
+      assertEquals("Objeto em análise de destinação - poderá ser devolvido ao remetente, encaminhado para refugo ou apreendido", event.getDetails());
+      assertEquals("CURITIBA / PR", event.getLocale());
+      calendar.set(2020, 0, 13, 11, 37, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(8);
+      assertNotNull(event);
+      assertEquals("Não foi autorizada a entrada do objeto no país pelos órgãos fiscalizadores", event.getDescription());
+      assertEquals("Objeto em análise de destinação - poderá ser devolvido ao remetente, encaminhado para refugo ou apreendido", event.getDetails());
+      assertEquals("CURITIBA / PR", event.getLocale());
+      calendar.set(2020, 0, 30, 7, 41, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
   }
 }
