@@ -78,7 +78,7 @@ publishing {
             artifact javadocJar
             groupId 'java.rastreio'
             artifactId 'rastreio'
-            version '1.0.0'
+            version '1.0.1'
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'A Java library for tracking Correios\' shipments. Heavily inspired by https://github.com/talesluna/rastrojs')
@@ -101,7 +101,7 @@ bintray {
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/rubenochiavone/rastreio-java.git'
         version {
-            name = '1.0.0'
+            name = '1.0.1'
         }
     }
 }
