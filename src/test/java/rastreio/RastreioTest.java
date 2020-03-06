@@ -249,11 +249,11 @@ public class RastreioTest {
       calendar.set(2019, 10, 27, 10, 27, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), trackObject.getPostedAt());
-      calendar.set(2020, 0, 30, 7, 41, 0);
+      calendar.set(2020, 2, 3, 16, 16, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
       assertNotNull(trackObject.getEvents());
-      assertEquals(9, trackObject.getEvents().size());
+      assertEquals(11, trackObject.getEvents().size());
       // First event
       TrackObject.Event event = trackObject.getEvents().get(0);
       assertNotNull(event);
@@ -272,13 +272,22 @@ public class RastreioTest {
       calendar.set(2020, 0, 13, 11, 37, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
-      // Last event
+      // 9th event
       event = trackObject.getEvents().get(8);
       assertNotNull(event);
       assertEquals("Não foi autorizada a entrada do objeto no país pelos órgãos fiscalizadores", event.getDescription());
       assertEquals("Objeto em análise de destinação - poderá ser devolvido ao remetente, encaminhado para refugo ou apreendido", event.getDetails());
       assertEquals("CURITIBA / PR", event.getLocale());
       calendar.set(2020, 0, 30, 7, 41, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(10);
+      assertNotNull(event);
+      assertEquals("Encaminhado para fiscalização aduaneira", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("Unidade de Tratamento Internacional / BR", event.getLocale());
+      calendar.set(2020, 2, 3, 16, 16, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
     } catch (IOException e) {
