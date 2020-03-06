@@ -75,7 +75,7 @@ public class Rastreio {
    */
   public static void track(String objectCode, Listener listener) {
     if (objectCode == null || listener == null) {
-      throw new NullPointerException("Rastreio.track: null listener");
+      throw new NullPointerException("Rastreio.track: null listener or object code");
     }
     // Validate object code
     if (objectCode.isEmpty() || !TrackObject.Code.validate(objectCode)) {
@@ -106,13 +106,13 @@ public class Rastreio {
    * 
    * @param objectCode string representing object track code
    * @throws IOException if an network error occur
-   * @throws NullPointerException if {@code objectCode} or {@code listener} is null
+   * @throws NullPointerException if {@code objectCode} is null
    * @throws IllegalArgumentException if {@code objectCode} is empty or invalid
    * @return new tracking object to query tracking data
    */
   public static TrackObject trackSync(String objectCode) throws IOException {
     if (objectCode == null) {
-      throw new NullPointerException("Rastreio.trackSync: null listener");
+      throw new NullPointerException("Rastreio.trackSync: null object code");
     }
     // Validate object code
     if (objectCode.isEmpty() || !TrackObject.Code.validate(objectCode)) {
