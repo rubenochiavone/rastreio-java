@@ -3,7 +3,10 @@ package rastreio;
 import java.io.IOException;
 import java.util.Calendar;
 
+import okhttp3.mockwebserver.MockWebServer;
+
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class RastreioTest {
@@ -60,6 +63,10 @@ public class RastreioTest {
     }
 
     try {
+      final MockWebServer server = Util.setupMockWebServerWithMockResponseFromFile("JT124720455BR.html");
+
+      assertNotNull(server);
+
       Rastreio.track("JT124720455BR", new Rastreio.Listener() {
       
         @Override
@@ -71,11 +78,15 @@ public class RastreioTest {
           assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
           assertFalse(trackObject.isValid());
           assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
+
+          Util.tearDownMockWebServer(server);
         }
       
         @Override
         public void onFailure(Exception e) {
           fail(e.getMessage());
+
+          Util.tearDownMockWebServer(server);
         }
       });
     } catch (Exception e) {
@@ -115,6 +126,22 @@ public class RastreioTest {
       fail(e.getMessage());
     }
 
+    MockWebServer server = null;
+
+    try {
+      server = Util.setupMockWebServer(); 
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    assertNotNull(server);
+
+    try {
+      Util.enqueueMockResponseFromFile(server, "JT124720455BR.html");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
     try {
       TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
 
@@ -126,6 +153,12 @@ public class RastreioTest {
       assertFalse(trackObject.isValid());
       assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
     } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      Util.enqueueMockResponseFromFile(server, "LO637869431CN.html");
+    } catch (Exception e) {
       fail(e.getMessage());
     }
 
@@ -182,6 +215,12 @@ public class RastreioTest {
     }
 
     try {
+      Util.enqueueMockResponseFromFile(server, "LB107580877SG.html");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
       TrackObject trackObject = Rastreio.trackSync("LB107580877SG");
 
       Calendar calendar = Calendar.getInstance();
@@ -230,6 +269,12 @@ public class RastreioTest {
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
     } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      Util.enqueueMockResponseFromFile(server, "RH117939038TR.html");
+    } catch (Exception e) {
       fail(e.getMessage());
     }
 
@@ -293,5 +338,65 @@ public class RastreioTest {
     } catch (IOException e) {
       fail(e.getMessage());
     }
+  
+    try {
+      Util.enqueueMockResponseFromFile(server, "LB679011587SE.html");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("LB679011587SE");
+
+      Calendar calendar = Calendar.getInstance();
+
+      assertNotNull(trackObject);
+      assertEquals("LB679011587SE", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.LB, trackObject.getServiceType());
+      assertEquals("LB", trackObject.getServiceType().getInitials());
+      assertEquals("LOGÍSTICA REVERSA SIMULTÂNEA SEDEX", trackObject.getServiceType().getDescription());
+      assertTrue(trackObject.isValid());
+      assertTrue(trackObject.isDelivered());
+      assertEquals(Error.NO_ERROR, trackObject.getError());
+      calendar.set(2020, 1, 12, 13, 48, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getPostedAt());
+      calendar.set(2020, 2, 2, 16, 42, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
+      assertNotNull(trackObject.getEvents());
+      assertEquals(10, trackObject.getEvents().size());
+      // First event
+      TrackObject.Event event = trackObject.getEvents().get(0);
+      assertNotNull(event);
+      assertEquals("Objeto postado", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("SUECIA /", event.getLocale());
+      calendar.set(2020, 1, 12, 13, 48, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Event with details
+      event = trackObject.getEvents().get(5);
+      assertNotNull(event);
+      assertEquals("Objeto encaminhado", event.getDescription());
+      assertEquals("de Unidade de Distribuição em CURITIBA / PR para Unidade de Tratamento em CAJAMAR / SP", event.getDetails());
+      assertEquals("CURITIBA / PR", event.getLocale());
+      calendar.set(2020, 1, 26, 15, 55, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(9);
+      assertNotNull(event);
+      assertEquals("Objeto entregue ao destinatário", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("BELO HORIZONTE / MG", event.getLocale());
+      calendar.set(2020, 2, 2, 16, 42, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    Util.tearDownMockWebServer(server);
   }
 }

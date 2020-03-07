@@ -20,6 +20,7 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.4.0'
 }
 
 // Code coverage configuration
