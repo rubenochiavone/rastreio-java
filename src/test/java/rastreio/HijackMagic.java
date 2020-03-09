@@ -6,6 +6,8 @@ import java.lang.reflect.Modifier;
 class HijackMagic {
   private static final String URL = Magic.URL;
 
+  private HijackMagic() {}
+
   public static void changeUrl(String newUrl) throws IllegalAccessException, NoSuchFieldException, SecurityException {
     Field field = Magic.class.getField("URL");
     field.setAccessible(true);

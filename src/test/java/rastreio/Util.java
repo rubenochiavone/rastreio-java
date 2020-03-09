@@ -11,6 +11,8 @@ import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.SocketPolicy;
 
 class Util {
+  private Util() {}
+
   static MockWebServer setupMockWebServer() throws IOException, IllegalAccessException, NoSuchFieldException, SecurityException {
     MockWebServer server = new MockWebServer();
     server.start();

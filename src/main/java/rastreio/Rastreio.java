@@ -61,6 +61,8 @@ public class Rastreio {
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
   private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss SSS");
 
+  private Rastreio() {}
+
   /**
    * Track an object by its code asynchronously.
    * 

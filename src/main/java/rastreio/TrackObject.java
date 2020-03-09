@@ -41,6 +41,8 @@ public class TrackObject {
    */
   private Error mError;
 
+  protected TrackObject() {}
+
   /**
    * Get tracking object code.
    * @return tracking object code
@@ -174,6 +176,8 @@ public class TrackObject {
   public static class Code {
     private static final Pattern OBJECT_CODE_PATTERN = Pattern.compile("[A-Z]{2}[0-9]{9}[A-Z]{2}");
 
+    private Code() {}
+
     /**
      * Validates object code format.
      * 
@@ -213,6 +217,8 @@ public class TrackObject {
      * Time when this event happened
      */
     private Date mTrackedAt;
+
+    protected Event() {}
 
     /**
      * Get locale of this event.
