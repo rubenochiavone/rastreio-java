@@ -89,13 +89,14 @@ public class Rastreio {
 
       @Override
       public void onResponse(Call call, Response response) throws IOException {
+        if (response == null || !response.isSuccessful()) {
+          listener.onFailure(new IOException("Rastreio.track: erroneous HTTP response " + response));
+        }
         try (ResponseBody responseBody = response.body()) {
-          if (!response.isSuccessful()) {
-            listener.onFailure(new IOException("Rastreio.track: errorneous HTTP response code " + response));
-          }
-
           // Parse response and notify listener about new tacking object
           listener.onSuccess(parseResponse(objectCode, responseBody.string()));
+        } catch (IOException e) {
+          listener.onFailure(new Exception("Rastreio.track: unable to fullfill HTTP request", e));
         }
       }
     });
@@ -120,7 +121,7 @@ public class Rastreio {
     }
     try (Response response = HTTP_CLIENT.newCall(newRequest(objectCode)).execute()) {
       if (!response.isSuccessful()) {
-        throw new IOException("Rastreio.trackSync: errorneous HTTP response code " + response);
+        throw new IOException("Rastreio.trackSync: erroneous HTTP response code " + response);
       }
       
       // Parse response and return new tacking object

@@ -86,12 +86,18 @@ public class RastreioTest {
     }
 
     try {
+      final Object syncObject = new Object();
+
       Util.enqueueMockResponseFromFile(mMockWebServer, "JT124720455BR.html");
 
       Rastreio.track("JT124720455BR", new Rastreio.Listener() {
       
         @Override
         public void onSuccess(TrackObject trackObject) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
           assertNotNull(trackObject);
           assertEquals("JT124720455BR", trackObject.getCode());
           assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
@@ -103,9 +109,122 @@ public class RastreioTest {
       
         @Override
         public void onFailure(Exception e) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
           fail(e.getMessage());
         }
       });
+
+      synchronized(syncObject) {
+        syncObject.wait();
+      }
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    // Force server response with 500 status code
+    try {
+      final Object syncObject = new Object();
+
+      Util.enqueueMockResponseFromStatusCode(mMockWebServer, 500);
+
+      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+      
+        @Override
+        public void onSuccess(TrackObject trackObject) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          fail("Tracking object with 5xx status code should NOT succeed");
+        }
+      
+        @Override
+        public void onFailure(Exception e) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          assertNotNull(e);
+          assertNotNull(e.getMessage());
+        }
+      });
+
+      synchronized(syncObject) {
+        syncObject.wait();
+      }
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    // Force server response timeout
+    try {
+      final Object syncObject = new Object();
+
+      Util.enqueueMockResponseWithNoResponse(mMockWebServer);
+
+      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+      
+        @Override
+        public void onSuccess(TrackObject trackObject) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          fail("Tracking object with no response should NOT succeed");
+        }
+      
+        @Override
+        public void onFailure(Exception e) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          assertNotNull(e);
+          assertNotNull(e.getMessage());
+        }
+      });
+
+      synchronized(syncObject) {
+        syncObject.wait();
+      }
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    // Force no body at server response
+    try {
+      final Object syncObject = new Object();
+
+      Util.enqueueMockResponseWithNoResponseBody(mMockWebServer);
+
+      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+      
+        @Override
+        public void onSuccess(TrackObject trackObject) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          fail("Tracking object with no response body should NOT succeed");
+        }
+      
+        @Override
+        public void onFailure(Exception e) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          assertNotNull(e);
+          assertNotNull(e.getMessage());
+        }
+      });
+
+      synchronized(syncObject) {
+        syncObject.wait();
+      }
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -402,6 +521,51 @@ public class RastreioTest {
       assertEquals(calendar.getTime(), event.getTrackedAt());
     } catch (IOException e) {
       fail(e.getMessage());
+    }
+
+    // Force server response with 500 status code
+    try {
+      Util.enqueueMockResponseFromStatusCode(mMockWebServer, 500);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      Rastreio.trackSync("LB679011587SE");
+      fail("Tracking object with 5xx status code should NOT succeed");
+    } catch (IOException e) {
+      assertNotNull(e);
+      assertNotNull(e.getMessage());
+    }
+
+    // Force server response timeout
+    try {
+      Util.enqueueMockResponseWithNoResponse(mMockWebServer);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      Rastreio.trackSync("LB679011587SE");
+      fail("Tracking object with no response should NOT succeed");
+    } catch (IOException e) {
+      assertNotNull(e);
+      assertNotNull(e.getMessage());
+    }
+
+    // Force no body at server response
+    try {
+      Util.enqueueMockResponseWithNoResponseBody(mMockWebServer);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      Rastreio.trackSync("LB679011587SE");
+      fail("Tracking object with no response body should NOT succeed");
+    } catch (IOException e) {
+      assertNotNull(e);
+      assertNotNull(e.getMessage());
     }
   }
 }

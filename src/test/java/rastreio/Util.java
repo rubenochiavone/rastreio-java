@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.SocketPolicy;
 
 class Util {
   static MockWebServer setupMockWebServer() throws IOException, IllegalAccessException, NoSuchFieldException, SecurityException {
@@ -51,8 +52,21 @@ class Util {
   }
 
   static void enqueueMockResponseFromFile(MockWebServer server, String filename) throws IOException, URISyntaxException {
-    server.enqueue(new MockResponse().setBody(
-      getResourceFileAsString(filename)));
+    server.enqueue(new MockResponse()
+      .setBody(getResourceFileAsString(filename)));
+  }
+
+  static void enqueueMockResponseFromStatusCode(MockWebServer server, int status) {
+    server.enqueue(new MockResponse().setStatus(String.valueOf(status))
+      .setBody(String.valueOf(status)));
+  }
+
+  static void enqueueMockResponseWithNoResponse(MockWebServer server) {
+    server.enqueue(new MockResponse().setSocketPolicy(SocketPolicy.NO_RESPONSE));
+  }
+
+  static void enqueueMockResponseWithNoResponseBody(MockWebServer server) {
+    server.enqueue(new MockResponse().setSocketPolicy(SocketPolicy.STALL_SOCKET_AT_START));
   }
 
   static String getResourceFileAsString(String filename) throws IOException, URISyntaxException {
