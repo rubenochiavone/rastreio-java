@@ -124,6 +124,87 @@ public class RastreioTest {
       fail(e.getMessage());
     }
 
+    // Mock response to cover edge cases
+    try {
+      final Object syncObject = new Object();
+
+      Util.enqueueMockResponseFromFile(mMockWebServer, "mocked.html");
+
+      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+      
+        @Override
+        public void onSuccess(TrackObject trackObject) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          assertNotNull(trackObject);
+          assertEquals("JT124720455BR", trackObject.getCode());
+          assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+          assertEquals("JT", trackObject.getServiceType().getInitials());
+          assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
+          assertFalse(trackObject.isValid());
+          assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
+          assertNull(trackObject.getEvents());
+        }
+      
+        @Override
+        public void onFailure(Exception e) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          fail(e.getMessage());
+        }
+      });
+
+      synchronized(syncObject) {
+        syncObject.wait();
+      }
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    // Force unexpected response
+    try {
+      final Object syncObject = new Object();
+
+      Util.enqueueMockResponseFromFile(mMockWebServer, "invalid.txt");
+
+      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+      
+        @Override
+        public void onSuccess(TrackObject trackObject) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          assertNotNull(trackObject);
+          assertEquals("JT124720455BR", trackObject.getCode());
+          assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+          assertEquals("JT", trackObject.getServiceType().getInitials());
+          assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
+          assertFalse(trackObject.isValid());
+          assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
+        }
+      
+        @Override
+        public void onFailure(Exception e) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          fail(e.getMessage());
+        }
+      });
+
+      synchronized(syncObject) {
+        syncObject.wait();
+      }
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
     // Force server response with 500 status code
     try {
       final Object syncObject = new Object();
@@ -519,6 +600,49 @@ public class RastreioTest {
       calendar.set(2020, 2, 2, 16, 42, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    // Mock response to cover edge cases
+    try {
+      Util.enqueueMockResponseFromFile(mMockWebServer, "mocked.html");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
+
+      assertNotNull(trackObject);
+      assertEquals("JT124720455BR", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+      assertEquals("JT", trackObject.getServiceType().getInitials());
+      assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
+      assertFalse(trackObject.isValid());
+      assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
+      assertNull(trackObject.getEvents());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    // Force unexpected response
+    try {
+      Util.enqueueMockResponseFromFile(mMockWebServer, "invalid.txt");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
+
+      assertNotNull(trackObject);
+      assertEquals("JT124720455BR", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+      assertEquals("JT", trackObject.getServiceType().getInitials());
+      assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
+      assertFalse(trackObject.isValid());
+      assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
     } catch (IOException e) {
       fail(e.getMessage());
     }

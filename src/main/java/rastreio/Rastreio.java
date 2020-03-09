@@ -230,7 +230,9 @@ public class Rastreio {
       } else if (eventListLastDataPieces.length > 0) {
         // Get first string element as event description
         description = eventListLastDataPieces[0].trim();
-      } else {
+      } 
+      
+      if (description == null || description.isEmpty()) {
         System.out.println("Rastreio.parseResponse: couldn't parse last table data element properly");
         continue; // Skip invalid table row
       }
