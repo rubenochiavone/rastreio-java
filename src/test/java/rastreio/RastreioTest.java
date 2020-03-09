@@ -5,11 +5,34 @@ import java.util.Calendar;
 
 import okhttp3.mockwebserver.MockWebServer;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class RastreioTest {
+  MockWebServer mMockWebServer = null;
+
+  @Before
+  public void setupServer() {
+    assertNull(mMockWebServer);
+    try {
+      mMockWebServer = Util.setupMockWebServer();
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+    assertNotNull(mMockWebServer);
+  }
+
+  @After
+  public void tearDownServer() {
+    assertNotNull(mMockWebServer);
+    Util.tearDownMockWebServer(mMockWebServer);
+    mMockWebServer = null;
+    assertNull(mMockWebServer);
+  }
+
   @Test
   public void testTrack() {
     Rastreio.Listener dummyListener = new Rastreio.Listener() {
@@ -63,9 +86,7 @@ public class RastreioTest {
     }
 
     try {
-      final MockWebServer server = Util.setupMockWebServerWithMockResponseFromFile("JT124720455BR.html");
-
-      assertNotNull(server);
+      Util.enqueueMockResponseFromFile(mMockWebServer, "JT124720455BR.html");
 
       Rastreio.track("JT124720455BR", new Rastreio.Listener() {
       
@@ -78,15 +99,11 @@ public class RastreioTest {
           assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
           assertFalse(trackObject.isValid());
           assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
-
-          Util.tearDownMockWebServer(server);
         }
       
         @Override
         public void onFailure(Exception e) {
           fail(e.getMessage());
-
-          Util.tearDownMockWebServer(server);
         }
       });
     } catch (Exception e) {
@@ -126,18 +143,8 @@ public class RastreioTest {
       fail(e.getMessage());
     }
 
-    MockWebServer server = null;
-
     try {
-      server = Util.setupMockWebServer(); 
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-
-    assertNotNull(server);
-
-    try {
-      Util.enqueueMockResponseFromFile(server, "JT124720455BR.html");
+      Util.enqueueMockResponseFromFile(mMockWebServer, "JT124720455BR.html");
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -157,7 +164,7 @@ public class RastreioTest {
     }
 
     try {
-      Util.enqueueMockResponseFromFile(server, "LO637869431CN.html");
+      Util.enqueueMockResponseFromFile(mMockWebServer, "LO637869431CN.html");
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -215,7 +222,7 @@ public class RastreioTest {
     }
 
     try {
-      Util.enqueueMockResponseFromFile(server, "LB107580877SG.html");
+      Util.enqueueMockResponseFromFile(mMockWebServer, "LB107580877SG.html");
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -273,7 +280,7 @@ public class RastreioTest {
     }
 
     try {
-      Util.enqueueMockResponseFromFile(server, "RH117939038TR.html");
+      Util.enqueueMockResponseFromFile(mMockWebServer, "RH117939038TR.html");
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -340,7 +347,7 @@ public class RastreioTest {
     }
   
     try {
-      Util.enqueueMockResponseFromFile(server, "LB679011587SE.html");
+      Util.enqueueMockResponseFromFile(mMockWebServer, "LB679011587SE.html");
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -396,7 +403,5 @@ public class RastreioTest {
     } catch (IOException e) {
       fail(e.getMessage());
     }
-
-    Util.tearDownMockWebServer(server);
   }
 }
