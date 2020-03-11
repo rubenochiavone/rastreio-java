@@ -126,6 +126,45 @@ public class RastreioMockedTest {
       fail(e.getMessage());
     }
 
+    // Kill mocked server to simulate server down
+    try {
+      Util.tearDownMockWebServer(mMockWebServer, true);
+      mMockWebServer = null;
+
+      final Object syncObject = new Object();
+
+      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+      
+        @Override
+        public void onSuccess(TrackObject trackObject) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          fail("Tracking object without server configured should NOT succeed");
+        }
+      
+        @Override
+        public void onFailure(Exception e) {
+          synchronized(syncObject) {
+            syncObject.notify();
+          }
+
+          assertNotNull(e);
+          assertNotNull(e.getMessage());
+        }
+      });
+
+      synchronized(syncObject) {
+        syncObject.wait(syncTimeout);
+      }
+
+      // Restart mocked server
+      mMockWebServer = Util.setupMockWebServer();
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
     // Mock response to cover edge cases
     try {
       final Object syncObject = new Object();
@@ -605,6 +644,30 @@ public class RastreioMockedTest {
     } catch (IOException e) {
       fail(e.getMessage());
     }
+
+    // Kill mocked server to simulate server down
+    try {
+      Util.tearDownMockWebServer(mMockWebServer, true);
+      mMockWebServer = null;
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      Rastreio.trackSync("LB679011587SE");
+      fail("Tracking object without server configured should NOT succeed");
+    } catch (IOException e) {
+      assertNotNull(e);
+      assertNotNull(e.getMessage());
+    }
+
+    // Restart mocked server
+    try {
+      mMockWebServer = Util.setupMockWebServer();
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+    
 
     // Mock response to cover edge cases
     try {

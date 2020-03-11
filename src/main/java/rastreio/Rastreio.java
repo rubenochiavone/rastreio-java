@@ -122,7 +122,7 @@ public class Rastreio {
       throw new IllegalArgumentException("Rastreio.trackSync: invalid object code");
     }
     try (Response response = HTTP_CLIENT.newCall(newRequest(objectCode)).execute()) {
-      if (!response.isSuccessful()) {
+      if (response == null || !response.isSuccessful()) {
         throw new IOException("Rastreio.trackSync: erroneous HTTP response code " + response);
       }
       

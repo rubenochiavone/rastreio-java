@@ -36,6 +36,10 @@ class Util {
   }
 
   static void tearDownMockWebServer(MockWebServer server) {
+    tearDownMockWebServer(server, false);
+  }
+
+  static void tearDownMockWebServer(MockWebServer server, boolean skipRevertingMagic) {
     try {
       if (server != null) {
         server.shutdown();
@@ -43,6 +47,10 @@ class Util {
       }
     } catch (Exception e) {
       // Ignore exception
+    }
+
+    if (skipRevertingMagic) {
+      return;
     }
 
     // Revert Magic.URL back to original
