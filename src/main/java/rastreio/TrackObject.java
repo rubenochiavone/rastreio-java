@@ -173,6 +173,9 @@ public class TrackObject {
     mError = error;
   }
 
+  /**
+   * Tracking object code validator class.
+   */
   public static class Code {
     private static final Pattern OBJECT_CODE_PATTERN = Pattern.compile("[A-Z]{2}[0-9]{9}[A-Z]{2}");
 

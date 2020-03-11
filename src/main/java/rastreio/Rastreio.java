@@ -273,15 +273,18 @@ public class Rastreio {
     return trackObject;
   }
 
+  /**
+   * Listener interface for asynchronously object tracking.
+   */
   public static interface Listener {
     /**
-     * Called when object tracking is completed with success
+     * Called when object tracking is completed with success.
      * @param trackObject tracking object result
      */
     void onSuccess(TrackObject trackObject);
 
     /**
-     * Called when object tracking fails
+     * Called when object tracking fails.
      * @param exception failure explanation
      */
     void onFailure(Exception exception);
