@@ -3,6 +3,7 @@ image: java:8-jdk
 stages:
   - build
   - test
+  - publish
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -27,6 +28,17 @@ test:
   stage: test
   coverage: '/Total.*?(\d+)%/'
   script:
-    - ./gradlew check
+    - ./gradlew check --info -PexcludeTests=**/RastreioTest.class
     - ./gradlew jacocoTestReport
     - cat build/jacocoHtml/index.html | grep -o '<tfoot>.*</tfoot>'
+
+staging:
+  stage: test
+  script:
+    - ./gradlew check --info -PincludeTests=**/RastreioTest.class
+  allow_failure: true
+
+publish:
+  stage: publish
+  script:
+    - ./gradlew publishToMavenLocal

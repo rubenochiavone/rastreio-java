@@ -23,6 +23,16 @@ dependencies {
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.4.0'
 }
 
+test {
+    if (project.hasProperty('excludeTests')) {
+        exclude project.property('excludeTests')
+    }
+
+    if (project.hasProperty('includeTests')) {
+        include project.property('includeTests')
+    }
+}
+
 // Code coverage configuration
 jacoco {
     toolVersion = "0.8.5"
