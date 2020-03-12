@@ -51,7 +51,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<mdc-top-app-bar class=\"demo-top-app-bar\" #topAppBar fixed>\n  <mdc-top-app-bar-row>\n    <mdc-top-app-bar-section align=\"start\" title=\"rastreio-java\">\n      <button mdcTopAppBarNavIcon (click)=\"appDrawer.open = !appDrawer.open\">\n        <mdc-icon>menu</mdc-icon>\n      </button>\n    </mdc-top-app-bar-section>\n    <mdc-top-app-bar-section align=\"end\">\n      <span>v{{version}}</span>\n      <a mdcTopAppBarActionItem href=\"https://github.com/rubenochiavone/rastreio-java\"\n        alt=\"GitHub\" target=\"_blank\" rel=\"noopener noreferrer\">\n        <mdc-icon>\n          <img\n            src=\"https://trimox.github.io/angular-mdc-web/assets/github-circle-white-transparent.svg\"\n            height=\"24\" />\n        </mdc-icon>\n      </a>\n    </mdc-top-app-bar-section>\n  </mdc-top-app-bar-row>\n</mdc-top-app-bar>\n\n<div class=\"demo-panel\">\n  <mdc-drawer class=\"demo-drawer\" #appDrawer=\"mdcDrawer\"\n    [open]=\"!isScreenSmall()\"\n    [drawer]=\"isScreenSmall() ? 'modal' : 'dismissible'\"\n    mdcTopAppBarFixedAdjust>\n    <mdc-drawer-content>\n      <mdc-list>\n        <mdc-list-item routerLink=\"home\" [activated]=\"rlaHome.isActive\"\n          (selectionChange)=\"onDrawerSelect('home')\" routerLinkActive\n          #rlaHome=\"routerLinkActive\">Home</mdc-list-item>\n        <mdc-list-item routerLink=\"getting-started\" [activated]=\"rlaGS.isActive\"\n          (selectionChange)=\"onDrawerSelect('getting-started')\" routerLinkActive\n          #rlaGS=\"routerLinkActive\">Getting Started</mdc-list-item>\n        <mdc-list-item routerLink=\"java-doc\" [activated]=\"rlaJD.isActive\"\n          (selectionChange)=\"onDrawerSelect('java-doc')\" routerLinkActive\n          #rlaJD=\"routerLinkActive\">Java Doc</mdc-list-item>\n      </mdc-list>\n    </mdc-drawer-content>\n  </mdc-drawer>\n\n  <div mdcDrawerAppContent mdcTopAppBarFixedAdjust class=\"demo-panel-section\">\n    <router-outlet></router-outlet>\n  </div>\n</div>";
+    __webpack_exports__["default"] = "<mdc-top-app-bar class=\"docs-top-app-bar\" #topAppBar fixed>\n  <mdc-top-app-bar-row>\n    <mdc-top-app-bar-section align=\"start\" title=\"rastreio-java\">\n      <button mdcTopAppBarNavIcon (click)=\"appDrawer.open = !appDrawer.open\">\n        <mdc-icon>menu</mdc-icon>\n      </button>\n    </mdc-top-app-bar-section>\n    <mdc-top-app-bar-section align=\"end\">\n      <span>v{{version}}</span>\n      <a mdcTopAppBarActionItem href=\"https://github.com/rubenochiavone/rastreio-java\"\n        alt=\"GitHub\" target=\"_blank\" rel=\"noopener noreferrer\">\n        <mdc-icon>\n          <img\n            src=\"https://trimox.github.io/angular-mdc-web/assets/github-circle-white-transparent.svg\"\n            height=\"24\" />\n        </mdc-icon>\n      </a>\n    </mdc-top-app-bar-section>\n  </mdc-top-app-bar-row>\n</mdc-top-app-bar>\n\n<div class=\"docs-panel\">\n  <mdc-drawer class=\"docs-drawer\" #appDrawer=\"mdcDrawer\"\n    [open]=\"!isScreenSmall()\"\n    [drawer]=\"isScreenSmall() ? 'modal' : 'dismissible'\"\n    mdcTopAppBarFixedAdjust>\n    <mdc-drawer-content>\n      <mdc-list>\n        <mdc-list-item routerLink=\"home\" [activated]=\"rlaHome.isActive\"\n          (selectionChange)=\"onDrawerSelect('home')\" routerLinkActive\n          #rlaHome=\"routerLinkActive\">Home</mdc-list-item>\n        <mdc-list-item routerLink=\"getting-started\" [activated]=\"rlaGS.isActive\"\n          (selectionChange)=\"onDrawerSelect('getting-started')\" routerLinkActive\n          #rlaGS=\"routerLinkActive\">Getting Started</mdc-list-item>\n        <mdc-list-item routerLink=\"java-doc\" [activated]=\"rlaJD.isActive\"\n          (selectionChange)=\"onDrawerSelect('java-doc')\" routerLinkActive\n          #rlaJD=\"routerLinkActive\">Java Doc</mdc-list-item>\n      </mdc-list>\n    </mdc-drawer-content>\n  </mdc-drawer>\n\n  <div mdcDrawerAppContent mdcTopAppBarFixedAdjust class=\"docs-panel-section\">\n    <router-outlet></router-outlet>\n  </div>\n</div>";
     /***/
   },
 
@@ -71,7 +71,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"demo-panel-content\">\n  <div class=\"demo-panel-transition\">\n    <h1 class=\"demo-panel-title\">Installation</h1>\n    <h2 class=\"demo-panel-heading\">Gradle</h2>\n    <pre><code [highlight]=\"buildGradleSnippet\" [languages]=\"langGroovy\"></code></pre>\n    <h2 class=\"demo-panel-heading\">Maven</h2>\n    <pre><code [highlight]=\"pomXmlSnippet\" [languages]=\"langXml\"></code></pre>\n    <h2 class=\"demo-panel-heading\">Ivy</h2>\n    <pre><code [highlight]=\"ivyXmlSnippet\" [languages]=\"langXml\"></code></pre>\n    <h1 class=\"demo-panel-title\">Usage</h1>\n    <p>Track object async:</p>\n    <pre><code [highlight]=\"rastreioTrackAsyncSnippet\" [languages]=\"langJava\"></code></pre>\n    <p>Track object sync:</p>\n    <pre><code [highlight]=\"rastreioTrackSyncSnippet\" [languages]=\"langJava\"></code></pre>\n    <h1 class=\"demo-panel-title\">Docs</h1>\n    <p>See complete javadoc <a routerLink=\"/java-doc\">here</a>.</p>\n  </div>\n</div>";
+    __webpack_exports__["default"] = "<div class=\"docs-panel-content\">\n  <div class=\"docs-panel-transition\">\n    <h1 class=\"docs-panel-title\">Installation</h1>\n    <h2 class=\"docs-panel-heading\">Gradle</h2>\n    <pre><code [highlight]=\"buildGradleSnippet\" [languages]=\"langGroovy\"></code></pre>\n    <h2 class=\"docs-panel-heading\">Maven</h2>\n    <pre><code [highlight]=\"pomXmlSnippet\" [languages]=\"langXml\"></code></pre>\n    <h2 class=\"docs-panel-heading\">Ivy</h2>\n    <pre><code [highlight]=\"ivyXmlSnippet\" [languages]=\"langXml\"></code></pre>\n    <h1 class=\"docs-panel-title\">Usage</h1>\n    <p>Track object async:</p>\n    <pre><code [highlight]=\"rastreioTrackAsyncSnippet\" [languages]=\"langJava\"></code></pre>\n    <p>Track object sync:</p>\n    <pre><code [highlight]=\"rastreioTrackSyncSnippet\" [languages]=\"langJava\"></code></pre>\n    <h1 class=\"docs-panel-title\">Docs</h1>\n    <p>See complete javadoc <a routerLink=\"/java-doc\">here</a>.</p>\n  </div>\n</div>";
     /***/
   },
 
@@ -91,7 +91,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"demo-landing demo-layout__column demo-layout--center\"\n  [mdcElevation]=\"2\">\n  <div class=\"demo-landing__summary demo-layout__column demo-layout--center\">\n    <h2 class=\"demo-landing__title\">Rastreio</h2>\n    <h4 class=\"demo-landing__label\">for Java</h4>\n  </div>\n</div>\n<div class=\"demo-layout__column demo-layout--center\">\n  <p class=\"demo-landing__subtitle\">A Java library for tracking Correios' shipments. Heavily inspired by <a href=\"https://github.com/talesluna/rastrojs\" target=\"_blank\">https://github.com/talesluna/rastrojs</a>.</p>\n  <button raised mdc-button [routerLink]=\"['/getting-started']\">Get\n    Started</button>\n</div>";
+    __webpack_exports__["default"] = "<div class=\"docs-landing docs-layout__column docs-layout--center\"\n  [mdcElevation]=\"2\">\n  <div class=\"docs-landing__summary docs-layout__column docs-layout--center\">\n    <h2 class=\"docs-landing__title\">Rastreio</h2>\n    <h4 class=\"docs-landing__label\">for Java</h4>\n  </div>\n</div>\n<div class=\"docs-layout__column docs-layout--center\">\n  <p class=\"docs-landing__subtitle\">A Java library for tracking Correios' shipments. Heavily inspired by <a href=\"https://github.com/talesluna/rastrojs\" target=\"_blank\">https://github.com/talesluna/rastrojs</a>.</p>\n  <button raised mdc-button [routerLink]=\"['/getting-started']\">Get\n    Started</button>\n</div>";
     /***/
   },
 
@@ -728,7 +728,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     !*** ./src/app/app-routing.module.ts ***!
     \***************************************/
 
-  /*! exports provided: DEMO_DECLARATIONS, AppRoutingModule */
+  /*! exports provided: DOCS_DECLARATIONS, AppRoutingModule */
 
   /***/
   function srcAppAppRoutingModuleTs(module, __webpack_exports__, __webpack_require__) {
@@ -738,8 +738,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony export (binding) */
 
 
-    __webpack_require__.d(__webpack_exports__, "DEMO_DECLARATIONS", function () {
-      return DEMO_DECLARATIONS;
+    __webpack_require__.d(__webpack_exports__, "DOCS_DECLARATIONS", function () {
+      return DOCS_DECLARATIONS;
     });
     /* harmony export (binding) */
 
@@ -784,7 +784,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /*! ./java-doc/java-doc */
     "./src/app/java-doc/java-doc.ts");
 
-    var DEMO_DECLARATIONS = [_getting_started_getting_started__WEBPACK_IMPORTED_MODULE_3__["GettingStarted"], _home_home__WEBPACK_IMPORTED_MODULE_4__["Home"], _java_doc_java_doc__WEBPACK_IMPORTED_MODULE_5__["JavaDoc"]];
+    var DOCS_DECLARATIONS = [_getting_started_getting_started__WEBPACK_IMPORTED_MODULE_3__["GettingStarted"], _home_home__WEBPACK_IMPORTED_MODULE_4__["Home"], _java_doc_java_doc__WEBPACK_IMPORTED_MODULE_5__["JavaDoc"]];
     var routes = [{
       path: 'getting-started',
       component: _getting_started_getting_started__WEBPACK_IMPORTED_MODULE_3__["GettingStarted"]
@@ -1073,7 +1073,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     AppModule = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
       imports: [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["BrowserModule"], _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"], _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"], _shared_module__WEBPACK_IMPORTED_MODULE_5__["SharedModule"], ngx_highlightjs__WEBPACK_IMPORTED_MODULE_8__["HighlightModule"]],
-      declarations: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"], _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["DEMO_DECLARATIONS"]],
+      declarations: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"], _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["DOCS_DECLARATIONS"]],
       providers: [{
         provide: _angular_common__WEBPACK_IMPORTED_MODULE_4__["APP_BASE_HREF"],
         useValue: '/'
