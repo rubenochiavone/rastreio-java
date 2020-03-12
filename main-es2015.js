@@ -330,7 +330,7 @@ function __classPrivateFieldSet(receiver, privateMap, value) {
 /*! exports provided: name, version, engines, scripts, private, dependencies, devDependencies, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"name\":\"rastreio-java-docs\",\"version\":\"1.0.2\",\"engines\":{\"node\":\">= 12.0.0\",\"yarn\":\">= 1.19.1\"},\"scripts\":{\"ng\":\"ng\",\"start\":\"ng serve\",\"build\":\"ng build\"},\"private\":true,\"dependencies\":{\"@angular/common\":\"^9.0.5\",\"@angular/compiler\":\"^9.0.5\",\"@angular/core\":\"^9.0.5\",\"@angular/forms\":\"^9.0.5\",\"@angular/platform-browser\":\"^9.0.5\",\"@angular/platform-browser-dynamic\":\"^9.0.5\",\"@angular/router\":\"^9.0.5\",\"@angular-mdc/web\":\"^5.1.1\",\"rxjs\":\"~6.5.3\",\"tslib\":\"^1.11.1\",\"zone.js\":\"~0.10.2\"},\"devDependencies\":{\"@angular-devkit/build-angular\":\"^0.900.5\",\"@angular/cli\":\"^9.0.5\",\"@angular/compiler-cli\":\"^9.0.5\",\"@types/node\":\"^13.7.7\",\"highlight.js\":\"^9.18.1\",\"ngx-highlightjs\":\"^4.0.2\",\"ts-node\":\"^8.5.4\",\"tslint\":\"~5.20.1\",\"typescript\":\"~3.7.4\"}}");
+module.exports = JSON.parse("{\"name\":\"rastreio-java-docs\",\"version\":\"1.0.3\",\"engines\":{\"node\":\">= 12.0.0\",\"yarn\":\">= 1.19.1\"},\"scripts\":{\"ng\":\"ng\",\"start\":\"ng serve\",\"build\":\"ng build\"},\"private\":true,\"dependencies\":{\"@angular/common\":\"^9.0.5\",\"@angular/compiler\":\"^9.0.5\",\"@angular/core\":\"^9.0.5\",\"@angular/forms\":\"^9.0.5\",\"@angular/platform-browser\":\"^9.0.5\",\"@angular/platform-browser-dynamic\":\"^9.0.5\",\"@angular/router\":\"^9.0.5\",\"@angular-mdc/web\":\"^5.1.1\",\"rxjs\":\"~6.5.3\",\"tslib\":\"^1.11.1\",\"zone.js\":\"~0.10.2\"},\"devDependencies\":{\"@angular-devkit/build-angular\":\"^0.900.5\",\"@angular/cli\":\"^9.0.5\",\"@angular/compiler-cli\":\"^9.0.5\",\"@types/node\":\"^13.7.7\",\"highlight.js\":\"^9.18.1\",\"ngx-highlightjs\":\"^4.0.2\",\"ts-node\":\"^8.5.4\",\"tslint\":\"~5.20.1\",\"typescript\":\"~3.7.4\"}}");
 
 /***/ }),
 
@@ -553,15 +553,15 @@ __webpack_require__.r(__webpack_exports__);
 let GettingStarted = class GettingStarted {
     constructor(titleService) {
         this.langGroovy = ['groovy'];
-        this.buildGradleSnippet = `implementation 'java.rastreio:rastreio:1.0.2'`;
+        this.buildGradleSnippet = `implementation 'java.rastreio:rastreio:1.0.3'`;
         this.langXml = ['xml'];
         this.pomXmlSnippet = `<dependency>
   <groupId>java.rastreio</groupId>
   <artifactId>rastreio</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <type>pom</type>
 </dependency>`;
-        this.ivyXmlSnippet = `<dependency org='java.rastreio' name='rastreio' rev='1.0.2'>
+        this.ivyXmlSnippet = `<dependency org='java.rastreio' name='rastreio' rev='1.0.3'>
   <artifact name='rastreio' ext='pom' ></artifact>
 </dependency>`;
         this.langJava = ['java'];

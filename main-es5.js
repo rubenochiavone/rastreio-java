@@ -718,7 +718,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   /***/
   function packageJson(module) {
-    module.exports = JSON.parse("{\"name\":\"rastreio-java-docs\",\"version\":\"1.0.2\",\"engines\":{\"node\":\">= 12.0.0\",\"yarn\":\">= 1.19.1\"},\"scripts\":{\"ng\":\"ng\",\"start\":\"ng serve\",\"build\":\"ng build\"},\"private\":true,\"dependencies\":{\"@angular/common\":\"^9.0.5\",\"@angular/compiler\":\"^9.0.5\",\"@angular/core\":\"^9.0.5\",\"@angular/forms\":\"^9.0.5\",\"@angular/platform-browser\":\"^9.0.5\",\"@angular/platform-browser-dynamic\":\"^9.0.5\",\"@angular/router\":\"^9.0.5\",\"@angular-mdc/web\":\"^5.1.1\",\"rxjs\":\"~6.5.3\",\"tslib\":\"^1.11.1\",\"zone.js\":\"~0.10.2\"},\"devDependencies\":{\"@angular-devkit/build-angular\":\"^0.900.5\",\"@angular/cli\":\"^9.0.5\",\"@angular/compiler-cli\":\"^9.0.5\",\"@types/node\":\"^13.7.7\",\"highlight.js\":\"^9.18.1\",\"ngx-highlightjs\":\"^4.0.2\",\"ts-node\":\"^8.5.4\",\"tslint\":\"~5.20.1\",\"typescript\":\"~3.7.4\"}}");
+    module.exports = JSON.parse("{\"name\":\"rastreio-java-docs\",\"version\":\"1.0.3\",\"engines\":{\"node\":\">= 12.0.0\",\"yarn\":\">= 1.19.1\"},\"scripts\":{\"ng\":\"ng\",\"start\":\"ng serve\",\"build\":\"ng build\"},\"private\":true,\"dependencies\":{\"@angular/common\":\"^9.0.5\",\"@angular/compiler\":\"^9.0.5\",\"@angular/core\":\"^9.0.5\",\"@angular/forms\":\"^9.0.5\",\"@angular/platform-browser\":\"^9.0.5\",\"@angular/platform-browser-dynamic\":\"^9.0.5\",\"@angular/router\":\"^9.0.5\",\"@angular-mdc/web\":\"^5.1.1\",\"rxjs\":\"~6.5.3\",\"tslib\":\"^1.11.1\",\"zone.js\":\"~0.10.2\"},\"devDependencies\":{\"@angular-devkit/build-angular\":\"^0.900.5\",\"@angular/cli\":\"^9.0.5\",\"@angular/compiler-cli\":\"^9.0.5\",\"@types/node\":\"^13.7.7\",\"highlight.js\":\"^9.18.1\",\"ngx-highlightjs\":\"^4.0.2\",\"ts-node\":\"^8.5.4\",\"tslint\":\"~5.20.1\",\"typescript\":\"~3.7.4\"}}");
     /***/
   },
 
@@ -1130,10 +1130,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _classCallCheck(this, GettingStarted);
 
       this.langGroovy = ['groovy'];
-      this.buildGradleSnippet = "implementation 'java.rastreio:rastreio:1.0.2'";
+      this.buildGradleSnippet = "implementation 'java.rastreio:rastreio:1.0.3'";
       this.langXml = ['xml'];
-      this.pomXmlSnippet = "<dependency>\n  <groupId>java.rastreio</groupId>\n  <artifactId>rastreio</artifactId>\n  <version>1.0.2</version>\n  <type>pom</type>\n</dependency>";
-      this.ivyXmlSnippet = "<dependency org='java.rastreio' name='rastreio' rev='1.0.2'>\n  <artifact name='rastreio' ext='pom' ></artifact>\n</dependency>";
+      this.pomXmlSnippet = "<dependency>\n  <groupId>java.rastreio</groupId>\n  <artifactId>rastreio</artifactId>\n  <version>1.0.3</version>\n  <type>pom</type>\n</dependency>";
+      this.ivyXmlSnippet = "<dependency org='java.rastreio' name='rastreio' rev='1.0.3'>\n  <artifact name='rastreio' ext='pom' ></artifact>\n</dependency>";
       this.langJava = ['java'];
       this.rastreioTrackAsyncSnippet = "Rastreio.track(\"JT124720455BR\", new Rastreio.Listener() {\n  @Override\n  public void onSuccess(TrackObject trackObject) {\n    // Use this tracking object\n  }\n    \n  @Override\n  public void onFailure(Exception e) {\n    // Report exception\n    e.printStackTrace();\n  }\n});";
       this.rastreioTrackSyncSnippet = "try {\n  TrackObject trackObject = Rastreio.trackSync(\"JT124720455BR\");\n\n  // Use this tracking object\n} catch (IOException e) {\n  // Report exception\n  e.printStackTrace();\n}";
