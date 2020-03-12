@@ -2,7 +2,7 @@
 @use '@material/ripple/_index' as ripple;
 @use '@material/theme';
 
-.demo-icon-button-custom {
+.docs-icon-button-custom {
   @include icon-button.ink-color(#de442c);
   @include ripple.states-base-color(#de442c);
   @include ripple.states-hover-opacity(.09);
@@ -10,14 +10,14 @@
   @include ripple.states-press-opacity(.35);
 }
 
-.demo-icon-button-primary {
+.docs-icon-button-primary {
   @include icon-button.ink-color(theme.$primary);
 }
 
-.demo-icon-button-secondary {
+.docs-icon-button-secondary {
   @include icon-button.ink-color(theme.$secondary);
 }
 
-.demo-icon-button-large {
+.docs-icon-button-large {
   @include icon-button.size(36px);
 }

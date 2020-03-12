@@ -1,7 +1,7 @@
 @use '@material/typography';
 @use '@material/theme';
 
-.demo-landing {
+.docs-landing {
   @include theme.prop(color, #fff);
   @include theme.prop(background-color, #363640);
 

@@ -5,7 +5,7 @@ import {GettingStarted} from './getting-started/getting-started';
 import {Home} from './home/home';
 import {JavaDoc} from './java-doc/java-doc';
 
-export const DEMO_DECLARATIONS = [
+export const DOCS_DECLARATIONS = [
   GettingStarted,
   Home,
   JavaDoc

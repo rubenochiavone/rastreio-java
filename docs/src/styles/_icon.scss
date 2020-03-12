@@ -1,7 +1,7 @@
 @use '@material/theme';
 @use '@material/theme/color-palette' as material-color;
 
-.demo-icon-custom-colors {
+.docs-icon-custom-colors {
   $color: material-color.$orange-500;
 
   @include theme.prop(color, $color);
@@ -15,7 +15,7 @@
   fill: rgba(0, 0, 0, .54);
 }
 
-.demo-svg-custom-color {
+.docs-svg-custom-color {
   $color: material-color.$orange-500;
 
   @include theme.prop(fill, $color);

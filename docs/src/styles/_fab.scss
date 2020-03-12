@@ -17,26 +17,26 @@
   @include fab.accessible(black);
 }
 
-.demo-fab-shaped--one {
+.docs-fab-shaped--one {
   @include fab.shape-radius(28px 0);
 }
 
-.demo-fab-shaped--two {
+.docs-fab-shaped--two {
   @include fab.shape-radius(8px);
 }
 
-.demo-fab-shape-radius {
+.docs-fab-shape-radius {
   @include fab.shape-radius(50% 0 0 0);
 }
 
-.demo-fab-extended-shape-radius {
+.docs-fab-extended-shape-radius {
   @include fab.extended-shape-radius(25%);
 }
 
-.demo-fab-icon-size {
+.docs-fab-icon-size {
   @include fab.icon-size(36px);
 }
 
-.demo-fab-position-zindex {
+.docs-fab-position-zindex {
   z-index: 7;
 }

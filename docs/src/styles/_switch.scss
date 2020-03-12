@@ -3,7 +3,7 @@
 
 $custom-switch-color: material-color.$red-500;
 
-.demo-switch--custom {
+.docs-switch--custom {
   @include switch.toggled-on-color($custom-switch-color);
 }
 

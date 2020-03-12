@@ -1,6 +1,6 @@
 @use '@material/drawer/_index' as drawer;
 
-.demo-drawer--custom {
+.docs-drawer--custom {
   @include drawer.border-color(lightblue);
   @include drawer.subtitle-ink-color(darkolivegreen);
   @include drawer.surface-fill-color(black);
@@ -12,14 +12,14 @@
   @include drawer.item-activated-icon-ink-color(darkcyan);
 }
 
-.demo-drawer--accessible {
+.docs-drawer--accessible {
   @include drawer.fill-color-accessible(darkcyan);
   @include drawer.activated-overlay-color(pink);
   @include drawer.item-activated-text-ink-color(pink);
   @include drawer.item-activated-icon-ink-color(pink);
 }
 
-.demo-drawer-app {
+.docs-drawer-app {
   border: 1px solid rgba(0, 0, 0, .15);
   min-height: 16.7rem;
   overflow: hidden;

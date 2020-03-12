@@ -1,7 +1,7 @@
 @use '@material/menu-surface/_index' as menu-surface;
 @use '@material/image-list';
 
-.demo-menu-surface--shaped {
+.docs-menu-surface--shaped {
   @include menu-surface.shape-radius(4px);
 }
 

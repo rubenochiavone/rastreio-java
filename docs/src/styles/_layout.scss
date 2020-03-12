@@ -7,13 +7,13 @@
 // Row
 //
 
-.demo-layout__row {
+.docs-layout__row {
   display: flex;
   flex-flow: row wrap;
   margin-top: .8rem;
 }
 
-.demo-layout__row--no-wrap {
+.docs-layout__row--no-wrap {
   display: flex;
   flex-direction: row;
 }
@@ -22,7 +22,7 @@
 // Column
 //
 
-.demo-layout__column {
+.docs-layout__column {
   display: flex;
   flex-direction: column;
 }
@@ -31,16 +31,16 @@
 // Modifiers
 //
 
-.demo-layout--start {
+.docs-layout--start {
   align-self: flex-start;
 }
 
-.demo-layout--end {
+.docs-layout--end {
   flex-grow: 1;
   align-self: flex-end;
 }
 
-.demo-layout--center {
+.docs-layout--center {
   display: flex;
   align-content: flex-end;
   align-items: center;
@@ -51,19 +51,19 @@
 // Containers
 //
 
-.demo-panel {
+.docs-panel {
   display: flex;
   position: relative;
   height: 100vh;
   overflow: hidden;
 }
 
-.demo-panel-section {
+.docs-panel-section {
   width: 100%;
   max-width: 100%;
 }
 
-.demo-panel-content {
+.docs-panel-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,13 +79,13 @@
   }
 }
 
-.demo-panel-transition {
+.docs-panel-transition {
   width: 100%;
   max-width: 900px;
   padding-bottom: 60px;  
 }
 
-.demo-panel-title {
+.docs-panel-title {
   @include typography.typography(headline4);
 
   margin: 16px 16px 16px 0;
@@ -95,7 +95,7 @@
   font-weight: 500;  
 }
 
-.demo-panel-heading {
+.docs-panel-heading {
   @include typography.typography(headline6);
 
   margin: 24px 16px 16px 0;
@@ -104,7 +104,7 @@
   border-bottom: 1px solid #eaecef;
 }
 
-.demo-container {
+.docs-container {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -118,7 +118,7 @@
   padding: 9px;
 }
 
-.demo-content {
+.docs-content {
   @include shape.radius(12px);
 
   border: 1px solid rgba(0, 0, 0, .15);
@@ -134,10 +134,10 @@
 }
 
 //
-// Demo top-app-bar
+// Docs top-app-bar
 //
 
-.demo-top-app-bar {
+.docs-top-app-bar {
   @include top-app-bar.fill-color(#363640);
 
   // only apply this style if below top app bar
@@ -145,10 +145,10 @@
 }
 
 //
-// Demo drawer
+// Docs drawer
 //
 
-.demo-drawer {
+.docs-drawer {
   position: fixed;
 
   .mdc-list-item {

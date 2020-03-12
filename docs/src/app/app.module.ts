@@ -5,7 +5,7 @@ import {APP_BASE_HREF} from '@angular/common';
 
 import {SharedModule} from './shared.module';
 import {AppComponent} from './app.component';
-import {AppRoutingModule, DEMO_DECLARATIONS} from './app-routing.module';
+import {AppRoutingModule, DOCS_DECLARATIONS} from './app-routing.module';
 
 import {HighlightModule, HIGHLIGHT_OPTIONS} from 'ngx-highlightjs';
 
@@ -30,7 +30,7 @@ export function getHighlightLanguages() {
   ],
   declarations: [
     AppComponent,
-    DEMO_DECLARATIONS
+    DOCS_DECLARATIONS
   ],
   providers: [
     {

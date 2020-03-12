@@ -2,7 +2,7 @@
 @use '@material/ripple/_index' as ripple;
 @use '@material/theme/color-palette' as material-color;
 
-.demo-radio--custom {
+.docs-radio--custom {
   $color: material-color.$red-500;
 
   @include radio.unchecked-stroke-color($color);

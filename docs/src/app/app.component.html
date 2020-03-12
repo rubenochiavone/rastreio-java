@@ -1,4 +1,4 @@
-<mdc-top-app-bar class="demo-top-app-bar" #topAppBar fixed>
+<mdc-top-app-bar class="docs-top-app-bar" #topAppBar fixed>
   <mdc-top-app-bar-row>
     <mdc-top-app-bar-section align="start" title="rastreio-java">
       <button mdcTopAppBarNavIcon (click)="appDrawer.open = !appDrawer.open">
@@ -19,8 +19,8 @@
   </mdc-top-app-bar-row>
 </mdc-top-app-bar>
 
-<div class="demo-panel">
-  <mdc-drawer class="demo-drawer" #appDrawer="mdcDrawer"
+<div class="docs-panel">
+  <mdc-drawer class="docs-drawer" #appDrawer="mdcDrawer"
     [open]="!isScreenSmall()"
     [drawer]="isScreenSmall() ? 'modal' : 'dismissible'"
     mdcTopAppBarFixedAdjust>
@@ -39,7 +39,7 @@
     </mdc-drawer-content>
   </mdc-drawer>
 
-  <div mdcDrawerAppContent mdcTopAppBarFixedAdjust class="demo-panel-section">
+  <div mdcDrawerAppContent mdcTopAppBarFixedAdjust class="docs-panel-section">
     <router-outlet></router-outlet>
   </div>
 </div>
