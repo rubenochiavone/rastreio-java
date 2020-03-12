@@ -1,0 +1,45 @@
+<mdc-top-app-bar class="demo-top-app-bar" #topAppBar fixed>
+  <mdc-top-app-bar-row>
+    <mdc-top-app-bar-section align="start" title="rastreio-java">
+      <button mdcTopAppBarNavIcon (click)="appDrawer.open = !appDrawer.open">
+        <mdc-icon>menu</mdc-icon>
+      </button>
+    </mdc-top-app-bar-section>
+    <mdc-top-app-bar-section align="end">
+      <span>v{{version}}</span>
+      <a mdcTopAppBarActionItem href="https://github.com/rubenochiavone/rastreio-java"
+        alt="GitHub" target="_blank" rel="noopener noreferrer">
+        <mdc-icon>
+          <img
+            src="https://trimox.github.io/angular-mdc-web/assets/github-circle-white-transparent.svg"
+            height="24" />
+        </mdc-icon>
+      </a>
+    </mdc-top-app-bar-section>
+  </mdc-top-app-bar-row>
+</mdc-top-app-bar>
+
+<div class="demo-panel">
+  <mdc-drawer class="demo-drawer" #appDrawer="mdcDrawer"
+    [open]="!isScreenSmall()"
+    [drawer]="isScreenSmall() ? 'modal' : 'dismissible'"
+    mdcTopAppBarFixedAdjust>
+    <mdc-drawer-content>
+      <mdc-list>
+        <mdc-list-item routerLink="home" [activated]="rlaHome.isActive"
+          (selectionChange)="onDrawerSelect('home')" routerLinkActive
+          #rlaHome="routerLinkActive">Home</mdc-list-item>
+        <mdc-list-item routerLink="getting-started" [activated]="rlaGS.isActive"
+          (selectionChange)="onDrawerSelect('getting-started')" routerLinkActive
+          #rlaGS="routerLinkActive">Getting Started</mdc-list-item>
+        <mdc-list-item routerLink="java-doc" [activated]="rlaJD.isActive"
+          (selectionChange)="onDrawerSelect('java-doc')" routerLinkActive
+          #rlaJD="routerLinkActive">Java Doc</mdc-list-item>
+      </mdc-list>
+    </mdc-drawer-content>
+  </mdc-drawer>
+
+  <div mdcDrawerAppContent mdcTopAppBarFixedAdjust class="demo-panel-section">
+    <router-outlet></router-outlet>
+  </div>
+</div>

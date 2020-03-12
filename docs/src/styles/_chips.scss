@@ -1,0 +1,49 @@
+@use '@material/chips/_index' as chips;
+@use "@material/theme";
+@use '@material/theme/color-palette' as material-color;
+
+$custom-chip-fill-color: material-color.$red-500;
+$custom-chip-ink-color: material-color.$blue-500;
+
+.custom-chip-secondary {
+  @include chips.fill-color(white);
+  @include chips.ink-color(theme.$secondary);
+  @include chips.selected-ink-color(theme.$secondary);
+  @include chips.outline(2px, solid, theme.$secondary);
+}
+
+.custom-chip--shape-radius {
+  @include chips.shape-radius(4px);
+}
+
+.custom-chip--height {
+  @include chips.height(40px);
+}
+
+.custom-chip--leading-icon-color {
+  @include chips.leading-icon-color($custom-chip-fill-color, .5);
+}
+
+.custom-chip--trailing-icon-color {
+  @include chips.trailing-icon-color($custom-chip-fill-color, .5);
+}
+
+.custom-chip--leading-icon-size {
+  @include chips.leading-icon-size(25px);
+}
+
+.custom-chip--trailing-icon-size {
+  @include chips.trailing-icon-size(25px);
+}
+
+.custom-chip--leading-icon-margin {
+  @include chips.leading-icon-margin(5px, 5px);
+}
+
+.custom-chip--trailing-icon-margin {
+  @include chips.trailing-icon-margin(5px, 5px);
+}
+
+.custom-chip--horizontal-padding {
+  @include chips.horizontal-padding(25px);
+}

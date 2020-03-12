@@ -6,3 +6,7 @@ build
 
 # Ignore Gradle bin directory
 bin
+
+# Ignore some docs files
+docs/node_modules
+docs/dist

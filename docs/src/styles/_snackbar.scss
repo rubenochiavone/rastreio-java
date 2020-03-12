@@ -1,0 +1,30 @@
+@use '@material/snackbar/_index' as snackbar;
+@use '@material/theme/color-palette' as material-color;
+
+.custom-snackbar--shape-radius {
+  @include snackbar.shape-radius(10px);
+}
+
+.custom-snackbar--fill-color {
+  @include snackbar.fill-color(material-color.$red-500);
+}
+
+.custom-snackbar--label-ink-color {
+  @include snackbar.label-ink-color(material-color.$yellow-500);
+}
+
+.custom-snackbar--viewport-margin {
+  @include snackbar.viewport-margin(50px);
+}
+
+.custom-snackbar--elevation {
+  @include snackbar.elevation(16);
+}
+
+.custom-snackbar--max-width {
+  @include snackbar.max-width(200px);
+}
+
+.custom-snackbar--min-width {
+  @include snackbar.min-width(800px);
+}

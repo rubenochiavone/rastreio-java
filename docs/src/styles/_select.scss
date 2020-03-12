@@ -1,0 +1,41 @@
+@use '@material/select/_index' as select;
+
+.custom-select-ink-color {
+  @include select.ink-color(green);
+}
+
+.custom-select-container-fill-color {
+  @include select.container-fill-color(green);
+}
+
+.custom-select-label-color {
+  @include select.label-color(green);
+}
+
+.custom-select-bottom-line-color {
+  @include select.bottom-line-color(green);
+}
+
+.custom-select-shape-radius {
+  @include select.shape-radius(50%);
+}
+
+.custom-select-outline-color {
+  @include select.outline-color(green);
+}
+
+.custom-select-outline-shape-radius {
+  @include select.outline-shape-radius(50%);
+}
+
+.custom-select-shape-radius {
+  @include select.shape-radius(50%);
+}
+
+.custom-select-outline-shape-radius {
+  @include select.outline-shape-radius(50%);
+}
+
+.demo-select-width {
+  width: 200px;
+}

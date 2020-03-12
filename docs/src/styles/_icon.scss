@@ -1,0 +1,22 @@
+@use '@material/theme';
+@use '@material/theme/color-palette' as material-color;
+
+.demo-icon-custom-colors {
+  $color: material-color.$orange-500;
+
+  @include theme.prop(color, $color);
+}
+
+.temporary-workaround-for-text-field-svg {
+  top: 5.8em
+}
+
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__icon {
+  fill: rgba(0, 0, 0, .54);
+}
+
+.demo-svg-custom-color {
+  $color: material-color.$orange-500;
+
+  @include theme.prop(fill, $color);
+}

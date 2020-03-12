@@ -33,8 +33,9 @@ implementation 'java.rastreio:rastreio:1.0.2'
 
 ## Usage
 
+Track object async:
+
 ```java
-// Track object async
 Rastreio.track("JT124720455BR", new Rastreio.Listener() {
   @Override
   public void onSuccess(TrackObject trackObject) {
@@ -47,8 +48,11 @@ Rastreio.track("JT124720455BR", new Rastreio.Listener() {
     e.printStackTrace();
   }
 });
+```
 
-// Track object sync
+Track object sync:
+
+```java
 try {
   TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
 
