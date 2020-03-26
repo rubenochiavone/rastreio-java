@@ -241,5 +241,55 @@ public class RastreioTest {
     } catch (IOException e) {
       fail(e.getMessage());
     }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("LO823618663CN");
+
+      Calendar calendar = Calendar.getInstance();
+
+      assertNotNull(trackObject);
+      assertEquals("LO823618663CN", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.UNKNOWN, trackObject.getServiceType());
+      assertTrue(trackObject.isValid());
+      assertFalse(trackObject.isDelivered());
+      assertEquals(Error.NO_ERROR, trackObject.getError());
+      calendar.set(2020, 1, 24, 19, 59, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getPostedAt());
+      calendar.set(2020, 2, 23, 22, 40, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
+      assertNotNull(trackObject.getEvents());
+      assertEquals(8, trackObject.getEvents().size());
+      // First event
+      TrackObject.Event event = trackObject.getEvents().get(0);
+      assertNotNull(event);
+      assertEquals("Objeto postado", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("CHINA /", event.getLocale());
+      calendar.set(2020, 1, 24, 19, 59, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Event with details
+      event = trackObject.getEvents().get(5);
+      assertNotNull(event);
+      assertEquals("Objeto encaminhado", event.getDescription());
+      assertEquals("de Unidade de Distribuição em CURITIBA / PR para Unidade de Tratamento em CAJAMAR / SP", event.getDetails());
+      assertEquals("CURITIBA / PR", event.getLocale());
+      calendar.set(2020, 2, 17, 14, 59, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(7);
+      assertNotNull(event);
+      assertEquals("Objeto encaminhado", event.getDescription());
+      assertEquals("de Unidade de Tratamento em RECIFE / PE para Agência dos Correios em Extremoz / RN", event.getDetails());
+      assertEquals("RECIFE / PE", event.getLocale());
+      calendar.set(2020, 2, 23, 22, 40, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
   }
 }
