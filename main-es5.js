@@ -51,7 +51,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<mdc-top-app-bar class=\"docs-top-app-bar\" #topAppBar fixed>\n  <mdc-top-app-bar-row>\n    <mdc-top-app-bar-section align=\"start\" title=\"rastreio-java\">\n      <button mdcTopAppBarNavIcon (click)=\"appDrawer.open = !appDrawer.open\">\n        <mdc-icon>menu</mdc-icon>\n      </button>\n    </mdc-top-app-bar-section>\n    <mdc-top-app-bar-section align=\"end\">\n      <span>v{{version}}</span>\n      <a mdcTopAppBarActionItem href=\"https://github.com/rubenochiavone/rastreio-java\"\n        alt=\"GitHub\" target=\"_blank\" rel=\"noopener noreferrer\">\n        <mdc-icon>\n          <img\n            src=\"https://trimox.github.io/angular-mdc-web/assets/github-circle-white-transparent.svg\"\n            height=\"24\" />\n        </mdc-icon>\n      </a>\n    </mdc-top-app-bar-section>\n  </mdc-top-app-bar-row>\n</mdc-top-app-bar>\n\n<div class=\"docs-panel\">\n  <mdc-drawer class=\"docs-drawer\" #appDrawer=\"mdcDrawer\"\n    [open]=\"!isScreenSmall()\"\n    [drawer]=\"isScreenSmall() ? 'modal' : 'dismissible'\"\n    mdcTopAppBarFixedAdjust>\n    <mdc-drawer-content>\n      <mdc-list>\n        <mdc-list-item routerLink=\"home\" [activated]=\"rlaHome.isActive\"\n          (selectionChange)=\"onDrawerSelect('home')\" routerLinkActive\n          #rlaHome=\"routerLinkActive\">Home</mdc-list-item>\n        <mdc-list-item routerLink=\"getting-started\" [activated]=\"rlaGS.isActive\"\n          (selectionChange)=\"onDrawerSelect('getting-started')\" routerLinkActive\n          #rlaGS=\"routerLinkActive\">Getting Started</mdc-list-item>\n        <mdc-list-item routerLink=\"java-doc\" [activated]=\"rlaJD.isActive\"\n          (selectionChange)=\"onDrawerSelect('java-doc')\" routerLinkActive\n          #rlaJD=\"routerLinkActive\">Java Doc</mdc-list-item>\n      </mdc-list>\n    </mdc-drawer-content>\n  </mdc-drawer>\n\n  <div mdcDrawerAppContent mdcTopAppBarFixedAdjust class=\"docs-panel-section\">\n    <router-outlet></router-outlet>\n  </div>\n</div>";
+    __webpack_exports__["default"] = "<mdc-top-app-bar class=\"docs-top-app-bar\" #topAppBar fixed>\n  <mdc-top-app-bar-row>\n    <mdc-top-app-bar-section align=\"start\" title=\"rastreio-java\">\n      <button mdcTopAppBarNavIcon (click)=\"appDrawer.open = !appDrawer.open\">\n        <mdc-icon>menu</mdc-icon>\n      </button>\n    </mdc-top-app-bar-section>\n    <mdc-top-app-bar-section align=\"end\">\n      <span>v{{version}}</span>\n      <a mdcTopAppBarActionItem href=\"https://github.com/rubenochiavone/rastreio-java\"\n        alt=\"GitHub\" target=\"_blank\" rel=\"noopener noreferrer\">\n        <mdc-icon>\n          <img\n            src=\"https://trimox.github.io/angular-mdc-web/assets/github-circle-white-transparent.svg\"\n            height=\"24\" />\n        </mdc-icon>\n      </a>\n    </mdc-top-app-bar-section>\n  </mdc-top-app-bar-row>\n</mdc-top-app-bar>\n\n<div class=\"docs-panel\">\n  <mdc-drawer class=\"docs-drawer\" #appDrawer=\"mdcDrawer\"\n    [open]=\"!isScreenSmall()\"\n    [drawer]=\"isScreenSmall() ? 'modal' : 'dismissible'\"\n    mdcTopAppBarFixedAdjust>\n    <mdc-drawer-content>\n      <mdc-list>\n        <mdc-list-item routerLink=\"home\" [activated]=\"rlaHome.isActive\"\n          (selectionChange)=\"onDrawerSelect('home')\" routerLinkActive\n          #rlaHome=\"routerLinkActive\">Home</mdc-list-item>\n        <mdc-list-item routerLink=\"getting-started\" [activated]=\"rlaGS.isActive\"\n          (selectionChange)=\"onDrawerSelect('getting-started')\" routerLinkActive\n          #rlaGS=\"routerLinkActive\">Getting Started</mdc-list-item>\n        <mdc-list-item routerLink=\"changelog\" [activated]=\"rlaCL.isActive\"\n          (selectionChange)=\"onDrawerSelect('changelog')\" routerLinkActive\n          #rlaCL=\"routerLinkActive\">Changelog</mdc-list-item>\n        <mdc-list-item routerLink=\"java-doc\" [activated]=\"rlaJD.isActive\"\n          (selectionChange)=\"onDrawerSelect('java-doc')\" routerLinkActive\n          #rlaJD=\"routerLinkActive\">Java Doc</mdc-list-item>\n      </mdc-list>\n    </mdc-drawer-content>\n  </mdc-drawer>\n\n  <div mdcDrawerAppContent mdcTopAppBarFixedAdjust class=\"docs-panel-section\">\n    <router-outlet></router-outlet>\n  </div>\n</div>";
+    /***/
+  },
+
+  /***/
+  "./node_modules/raw-loader/dist/cjs.js!./src/app/changelog/changelog.html":
+  /*!********************************************************************************!*\
+    !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/changelog/changelog.html ***!
+    \********************************************************************************/
+
+  /*! exports provided: default */
+
+  /***/
+  function node_modulesRawLoaderDistCjsJsSrcAppChangelogChangelogHtml(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony default export */
+
+
+    __webpack_exports__["default"] = "<div class=\"docs-panel-content\">\n  <div class=\"docs-panel-transition\">\n    <h1 class=\"docs-panel-title\">Changelog</h1>\n\n    <!-- 1.0.3 -->\n    <h2 class=\"docs-panel-heading\">1.0.3 - 2020-03-11</h2>\n    <h3>Added</h3>\n    <ul>\n      <li>Proper classes constructors</li>\n    </ul>\n    <h3>Changed</h3>\n    <ul>\n      <li>Handling of egde cases</li>\n    </ul>\n\n    <!-- 1.0.2 -->\n    <h2 class=\"docs-panel-heading\">1.0.2 - 2020-02-27</h2>\n    <h3>Changed</h3>\n    <ul>\n      <li>Drop base64 decoder class requirement</li>\n    </ul>\n\n    <!-- 1.0.1 -->\n    <h2 class=\"docs-panel-heading\">1.0.1 - 2020-02-14</h2>\n    <h3>Changed</h3>\n    <ul>\n      <li>Parsing to handle absence of strong element on event description</li>\n    </ul>\n\n    <!-- 1.0.0 -->\n    <h2 class=\"docs-panel-heading\">1.0.0 - 2020-02-13</h2>\n    <ul>\n      <li>Initial release</li>\n    </ul>\n  </div>\n</div>";
     /***/
   },
 
@@ -71,7 +91,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<div class=\"docs-panel-content\">\n  <div class=\"docs-panel-transition\">\n    <h1 class=\"docs-panel-title\">Installation</h1>\n    <h2 class=\"docs-panel-heading\">Gradle</h2>\n    <pre><code [highlight]=\"buildGradleSnippet\" [languages]=\"langGroovy\"></code></pre>\n    <h2 class=\"docs-panel-heading\">Maven</h2>\n    <pre><code [highlight]=\"pomXmlSnippet\" [languages]=\"langXml\"></code></pre>\n    <h2 class=\"docs-panel-heading\">Ivy</h2>\n    <pre><code [highlight]=\"ivyXmlSnippet\" [languages]=\"langXml\"></code></pre>\n    <h1 class=\"docs-panel-title\">Usage</h1>\n    <p>Track object async:</p>\n    <pre><code [highlight]=\"rastreioTrackAsyncSnippet\" [languages]=\"langJava\"></code></pre>\n    <p>Track object sync:</p>\n    <pre><code [highlight]=\"rastreioTrackSyncSnippet\" [languages]=\"langJava\"></code></pre>\n    <h1 class=\"docs-panel-title\">Docs</h1>\n    <p>See complete javadoc <a routerLink=\"/java-doc\">here</a>.</p>\n  </div>\n</div>";
+    __webpack_exports__["default"] = "<div class=\"docs-panel-content\">\n  <div class=\"docs-panel-transition\">\n    <h1 class=\"docs-panel-title\">Installation</h1>\n    <h2 class=\"docs-panel-heading\">Gradle</h2>\n    <pre><code [highlight]=\"buildGradleSnippet\" [languages]=\"langGroovy\"></code></pre>\n    <h2 class=\"docs-panel-heading\">Maven</h2>\n    <pre><code [highlight]=\"pomXmlSnippet\" [languages]=\"langXml\"></code></pre>\n    <h2 class=\"docs-panel-heading\">Ivy</h2>\n    <pre><code [highlight]=\"ivyXmlSnippet\" [languages]=\"langXml\"></code></pre>\n    <h1 class=\"docs-panel-title\">Usage</h1>\n    <p>Track object async:</p>\n    <pre><code [highlight]=\"rastreioTrackAsyncSnippet\" [languages]=\"langJava\"></code></pre>\n    <p>Track object sync:</p>\n    <pre><code [highlight]=\"rastreioTrackSyncSnippet\" [languages]=\"langJava\"></code></pre>\n    <h1 class=\"docs-panel-title\">Docs</h1>\n    <p>See complete javadoc <a routerLink=\"/java-doc\">here</a>.</p>\n    <h1 class=\"docs-panel-title\">Changelog</h1>\n    <p>To see project changelog, click <a routerLink=\"/changelog\">here</a>.</p>\n  </div>\n</div>";
     /***/
   },
 
@@ -768,33 +788,42 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony import */
 
 
-    var _getting_started_getting_started__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    var _changelog_changelog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! ./changelog/changelog */
+    "./src/app/changelog/changelog.ts");
+    /* harmony import */
+
+
+    var _getting_started_getting_started__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
     /*! ./getting-started/getting-started */
     "./src/app/getting-started/getting-started.ts");
     /* harmony import */
 
 
-    var _home_home__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var _home_home__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! ./home/home */
     "./src/app/home/home.ts");
     /* harmony import */
 
 
-    var _java_doc_java_doc__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    var _java_doc_java_doc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! ./java-doc/java-doc */
     "./src/app/java-doc/java-doc.ts");
 
-    var DOCS_DECLARATIONS = [_getting_started_getting_started__WEBPACK_IMPORTED_MODULE_3__["GettingStarted"], _home_home__WEBPACK_IMPORTED_MODULE_4__["Home"], _java_doc_java_doc__WEBPACK_IMPORTED_MODULE_5__["JavaDoc"]];
+    var DOCS_DECLARATIONS = [_getting_started_getting_started__WEBPACK_IMPORTED_MODULE_4__["GettingStarted"], _home_home__WEBPACK_IMPORTED_MODULE_5__["Home"], _java_doc_java_doc__WEBPACK_IMPORTED_MODULE_6__["JavaDoc"]];
     var routes = [{
+      path: 'changelog',
+      component: _changelog_changelog__WEBPACK_IMPORTED_MODULE_3__["Changelog"]
+    }, {
       path: 'getting-started',
-      component: _getting_started_getting_started__WEBPACK_IMPORTED_MODULE_3__["GettingStarted"]
+      component: _getting_started_getting_started__WEBPACK_IMPORTED_MODULE_4__["GettingStarted"]
     }, {
       path: 'home',
-      component: _home_home__WEBPACK_IMPORTED_MODULE_4__["Home"],
+      component: _home_home__WEBPACK_IMPORTED_MODULE_5__["Home"],
       pathMatch: 'full'
     }, {
       path: 'java-doc',
-      component: _java_doc_java_doc__WEBPACK_IMPORTED_MODULE_5__["JavaDoc"]
+      component: _java_doc_java_doc__WEBPACK_IMPORTED_MODULE_6__["JavaDoc"]
     }, {
       path: '**',
       redirectTo: 'home'
@@ -1085,6 +1114,64 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }],
       bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
     })], AppModule);
+    /***/
+  },
+
+  /***/
+  "./src/app/changelog/changelog.ts":
+  /*!****************************************!*\
+    !*** ./src/app/changelog/changelog.ts ***!
+    \****************************************/
+
+  /*! exports provided: Changelog */
+
+  /***/
+  function srcAppChangelogChangelogTs(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+
+    __webpack_require__.r(__webpack_exports__);
+    /* harmony export (binding) */
+
+
+    __webpack_require__.d(__webpack_exports__, "Changelog", function () {
+      return Changelog;
+    });
+    /* harmony import */
+
+
+    var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+    /*! tslib */
+    "./node_modules/tslib/tslib.es6.js");
+    /* harmony import */
+
+
+    var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+    /*! @angular/core */
+    "./node_modules/@angular/core/__ivy_ngcc__/fesm2015/core.js");
+    /* harmony import */
+
+
+    var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/platform-browser */
+    "./node_modules/@angular/platform-browser/__ivy_ngcc__/fesm2015/platform-browser.js");
+
+    var Changelog = function Changelog(titleService) {
+      _classCallCheck(this, Changelog);
+
+      titleService.setTitle('rastreio-java');
+    };
+
+    Changelog.ctorParameters = function () {
+      return [{
+        type: _angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"]
+      }];
+    };
+
+    Changelog = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+      template: Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"])(__webpack_require__(
+      /*! raw-loader!./changelog.html */
+      "./node_modules/raw-loader/dist/cjs.js!./src/app/changelog/changelog.html"))["default"]
+    }), Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"])("design:paramtypes", [_angular_platform_browser__WEBPACK_IMPORTED_MODULE_2__["Title"]])], Changelog);
     /***/
   },
 
