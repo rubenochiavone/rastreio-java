@@ -188,11 +188,11 @@ public class RastreioTest {
       calendar.set(2019, 10, 27, 10, 27, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), trackObject.getPostedAt());
-      calendar.set(2020, 2, 10, 14, 35, 0);
+      calendar.set(2020, 2, 30, 13, 50, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
       assertNotNull(trackObject.getEvents());
-      assertEquals(13, trackObject.getEvents().size());
+      assertEquals(14, trackObject.getEvents().size());
       // First event
       TrackObject.Event event = trackObject.getEvents().get(0);
       assertNotNull(event);
@@ -229,13 +229,22 @@ public class RastreioTest {
       calendar.set(2020, 2, 3, 16, 16, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
-      // Last event
+      // 13th event
       event = trackObject.getEvents().get(12);
       assertNotNull(event);
       assertEquals("Objeto devolvido ao país de origem", event.getDescription());
       assertNull(event.getDetails());
       assertEquals("CURITIBA / PR", event.getLocale());
       calendar.set(2020, 2, 10, 14, 35, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(13);
+      assertNotNull(event);
+      assertEquals("Objeto recebido em", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("TURQUIA /", event.getLocale());
+      calendar.set(2020, 2, 30, 13, 50, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
     } catch (IOException e) {
