@@ -260,16 +260,16 @@ public class RastreioTest {
       assertEquals("LO823618663CN", trackObject.getCode());
       assertEquals(TrackObjectServiceType.UNKNOWN, trackObject.getServiceType());
       assertTrue(trackObject.isValid());
-      assertFalse(trackObject.isDelivered());
+      assertTrue(trackObject.isDelivered());
       assertEquals(Error.NO_ERROR, trackObject.getError());
       calendar.set(2020, 1, 24, 19, 59, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), trackObject.getPostedAt());
-      calendar.set(2020, 2, 23, 22, 40, 0);
+      calendar.set(2020, 3, 8, 11, 32, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
       assertNotNull(trackObject.getEvents());
-      assertEquals(8, trackObject.getEvents().size());
+      assertEquals(10, trackObject.getEvents().size());
       // First event
       TrackObject.Event event = trackObject.getEvents().get(0);
       assertNotNull(event);
@@ -288,13 +288,22 @@ public class RastreioTest {
       calendar.set(2020, 2, 17, 14, 59, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
-      // Last event
+      // 8th event
       event = trackObject.getEvents().get(7);
       assertNotNull(event);
       assertEquals("Objeto encaminhado", event.getDescription());
       assertEquals("de Unidade de Tratamento em RECIFE / PE para Agência dos Correios em Extremoz / RN", event.getDetails());
       assertEquals("RECIFE / PE", event.getLocale());
       calendar.set(2020, 2, 23, 22, 40, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(9);
+      assertNotNull(event);
+      assertEquals("Objeto entregue ao destinatário", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("Extremoz / RN", event.getLocale());
+      calendar.set(2020, 3, 8, 11, 32, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
     } catch (IOException e) {
