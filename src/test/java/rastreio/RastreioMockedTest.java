@@ -701,6 +701,64 @@ public class RastreioMockedTest {
       fail(e.getMessage());
     }
 
+    try {
+      Util.enqueueMockResponseFromFile(mMockWebServer, "LX639826650CN.html");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("LX639826650CN");
+
+      Calendar calendar = Calendar.getInstance();
+
+      assertNotNull(trackObject);
+      assertEquals("LX639826650CN", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.LX, trackObject.getServiceType());
+      assertEquals("LX", trackObject.getServiceType().getInitials());
+      assertEquals("OBJETO INTERNACIONAL PACKET ECONOMIC", trackObject.getServiceType().getDescription());
+      assertTrue(trackObject.isValid());
+      assertTrue(trackObject.isDelivered());
+      assertEquals(Error.NO_ERROR, trackObject.getError());
+      calendar.set(2020, 1, 27, 16, 56, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getPostedAt());
+      calendar.set(2020, 3, 8, 11, 32, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
+      assertNotNull(trackObject.getEvents());
+      assertEquals(10, trackObject.getEvents().size());
+      // First event
+      TrackObject.Event event = trackObject.getEvents().get(0);
+      assertNotNull(event);
+      assertEquals("Objeto postado", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("CHINA /", event.getLocale());
+      calendar.set(2020, 1, 27, 16, 56, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Event with details
+      event = trackObject.getEvents().get(7);
+      assertNotNull(event);
+      assertEquals("Objeto encaminhado", event.getDescription());
+      assertEquals("de Unidade de Tratamento em RECIFE / PE para Agência dos Correios em Extremoz / RN", event.getDetails());
+      assertEquals("RECIFE / PE", event.getLocale());
+      calendar.set(2020, 3, 1, 21, 17, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(9);
+      assertNotNull(event);
+      assertEquals("Objeto entregue ao destinatário", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("Extremoz / RN", event.getLocale());
+      calendar.set(2020, 3, 8, 11, 32, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
     // Kill mocked server to simulate server down
     try {
       Util.tearDownMockWebServer(mMockWebServer, true);
