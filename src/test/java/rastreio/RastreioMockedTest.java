@@ -463,6 +463,26 @@ public class RastreioMockedTest {
     }
 
     try {
+      Util.enqueueMockResponseFromFile(mMockWebServer, "LO637869431CN_not_found.html");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("LO637869431CN");
+
+      assertNotNull(trackObject);
+      assertEquals("LO637869431CN", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.UNKNOWN, trackObject.getServiceType());
+      assertEquals("", trackObject.getServiceType().getInitials());
+      assertEquals("", trackObject.getServiceType().getDescription());
+      assertFalse(trackObject.isValid());
+      assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    try {
       Util.enqueueMockResponseFromFile(mMockWebServer, "LB107580877SG.html");
     } catch (Exception e) {
       fail(e.getMessage());
@@ -516,6 +536,26 @@ public class RastreioMockedTest {
       calendar.set(2020, 1, 11, 15, 44, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      Util.enqueueMockResponseFromFile(mMockWebServer, "LB107580877SG_not_found.html");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("LB107580877SG");
+
+      assertNotNull(trackObject);
+      assertEquals("LB107580877SG", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.LB, trackObject.getServiceType());
+      assertEquals("LB", trackObject.getServiceType().getInitials());
+      assertEquals("LOGÍSTICA REVERSA SIMULTÂNEA SEDEX", trackObject.getServiceType().getDescription());
+      assertFalse(trackObject.isValid());
+      assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
     } catch (IOException e) {
       fail(e.getMessage());
     }
@@ -581,6 +621,55 @@ public class RastreioMockedTest {
       assertNull(event.getDetails());
       assertEquals("Unidade de Tratamento Internacional / BR", event.getLocale());
       calendar.set(2020, 2, 3, 16, 16, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+    } catch (IOException e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      Util.enqueueMockResponseFromFile(mMockWebServer, "RH117939038TR_new.html");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("RH117939038TR");
+
+      Calendar calendar = Calendar.getInstance();
+
+      assertNotNull(trackObject);
+      assertEquals("RH117939038TR", trackObject.getCode());
+      assertEquals(TrackObjectServiceType.RH, trackObject.getServiceType());
+      assertEquals("RH", trackObject.getServiceType().getInitials());
+      assertEquals("REGISTRADO COM AR DIGITAL", trackObject.getServiceType().getDescription());
+      assertTrue(trackObject.isValid());
+      assertTrue(!trackObject.isDelivered());
+      assertEquals(Error.NO_ERROR, trackObject.getError());
+      calendar.set(2020, 1, 28, 16, 33, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getPostedAt());
+      calendar.set(2020, 2, 30, 13, 50, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
+      assertNotNull(trackObject.getEvents());
+      assertEquals(5, trackObject.getEvents().size());
+      // First event
+      TrackObject.Event event = trackObject.getEvents().get(0);
+      assertNotNull(event);
+      assertEquals("Devolução autorizada pela Receita Federal", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("CURITIBA / PR", event.getLocale());
+      calendar.set(2020, 1, 28, 16, 33, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(4);
+      assertNotNull(event);
+      assertEquals("Objeto recebido em", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("TURQUIA /", event.getLocale());
+      calendar.set(2020, 2, 30, 13, 50, 0);
       calendar.set(Calendar.MILLISECOND, 0);
       assertEquals(calendar.getTime(), event.getTrackedAt());
     } catch (IOException e) {
