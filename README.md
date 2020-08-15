@@ -9,7 +9,7 @@ A Java library for tracking Correios' shipments. Heavily inspired by https://git
 ### Gradle
 
 ```groovy
-implementation 'java.rastreio:rastreio:1.0.3'
+implementation 'java.rastreio:rastreio:1.0.4'
 ```
 
 ### Maven
@@ -18,7 +18,7 @@ implementation 'java.rastreio:rastreio:1.0.3'
 <dependency>
   <groupId>java.rastreio</groupId>
   <artifactId>rastreio</artifactId>
-  <version>1.0.3</version>
+  <version>1.0.4</version>
   <type>pom</type>
 </dependency>
 ```
@@ -26,7 +26,7 @@ implementation 'java.rastreio:rastreio:1.0.3'
 ### Ivy
 
 ```xml
-<dependency org='java.rastreio' name='rastreio' rev='1.0.3'>
+<dependency org='java.rastreio' name='rastreio' rev='1.0.4'>
   <artifact name='rastreio' ext='pom' ></artifact>
 </dependency>
 ```
