@@ -15,12 +15,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.squareup.okhttp3:okhttp:4.5.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     implementation 'org.jsoup:jsoup:1.13.1'
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
-    testImplementation 'com.squareup.okhttp3:mockwebserver:4.5.0'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.8.1'
 }
 
 test {
