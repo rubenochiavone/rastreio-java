@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.SocketPolicy;
@@ -13,7 +12,8 @@ import okhttp3.mockwebserver.SocketPolicy;
 class Util {
   private Util() {}
 
-  static MockWebServer setupMockWebServer() throws IOException, IllegalAccessException, NoSuchFieldException, SecurityException {
+  static MockWebServer setupMockWebServer() throws IOException, IllegalAccessException,
+      NoSuchFieldException, SecurityException {
     MockWebServer server = new MockWebServer();
     server.start();
 
@@ -23,10 +23,12 @@ class Util {
     return server;
   }
   
-  static MockWebServer setupMockWebServerWithMockResponseFromFile(String filename) throws IOException, URISyntaxException, IllegalAccessException, NoSuchFieldException, SecurityException {
+  static MockWebServer setupMockWebServerWithMockResponseFromFile(String filename) throws
+      IOException, URISyntaxException, IllegalAccessException, NoSuchFieldException,
+      SecurityException {
     MockWebServer server = new MockWebServer();
     server.enqueue(new MockResponse().setBody(
-      getResourceFileAsString(filename)));
+        getResourceFileAsString(filename)));
     server.start();
 
     // Change Magic.URL to use server URL
@@ -61,14 +63,15 @@ class Util {
     }
   }
 
-  static void enqueueMockResponseFromFile(MockWebServer server, String filename) throws IOException, URISyntaxException {
+  static void enqueueMockResponseFromFile(MockWebServer server, String filename) throws
+      IOException, URISyntaxException {
     server.enqueue(new MockResponse()
-      .setBody(getResourceFileAsString(filename)));
+        .setBody(getResourceFileAsString(filename)));
   }
 
   static void enqueueMockResponseFromStatusCode(MockWebServer server, int status) {
     server.enqueue(new MockResponse().setStatus(String.valueOf(status))
-      .setBody(String.valueOf(status)));
+        .setBody(String.valueOf(status)));
   }
 
   static void enqueueMockResponseWithNoResponse(MockWebServer server) {
@@ -81,8 +84,8 @@ class Util {
 
   static String getResourceFileAsString(String filename) throws IOException, URISyntaxException {
     return new String(Files.readAllBytes(
-      Paths.get(ClassLoader.getSystemClassLoader().getResource(filename).toURI())),
-      StandardCharsets.ISO_8859_1
+        Paths.get(ClassLoader.getSystemClassLoader().getResource(filename).toURI())),
+        StandardCharsets.ISO_8859_1
     );
   }
 }

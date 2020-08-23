@@ -30,11 +30,26 @@ build:
       - src/**/*
       when: always
 
+checkstyle:
+  stage: build
+  script:
+    - ./gradlew checkstyleMain
+    - ./gradlew checkstyleTest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: $CI_COMMIT_TAG
+      when: never
+    - changes:
+      - '**/*.gradle'
+      - src/**/*
+      - config/checkstyle/**/*
+      when: always
+
 test:
   stage: test
   coverage: '/Total.*?(\d+)%/'
   script:
-    - ./gradlew check --info -PexcludeTests=**/RastreioTest.class
+    - ./gradlew test --info -PexcludeTests=**/RastreioTest.class
     - ./gradlew jacocoTestReport
     - cat build/jacocoHtml/index.html | grep -o '<tfoot>.*</tfoot>'
   rules:
@@ -49,7 +64,7 @@ test:
 staging:
   stage: test
   script:
-    - ./gradlew check --info -PincludeTests=**/RastreioTest.class
+    - ./gradlew test --info -PincludeTests=**/RastreioTest.class
   allow_failure: true
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'

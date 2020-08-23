@@ -9,23 +9,28 @@ class HijackMagic {
 
   private HijackMagic() {}
 
-  public static void changeUrl(String newUrl) throws IllegalAccessException, NoSuchFieldException, SecurityException {
+  public static void changeUrl(String newUrl) throws IllegalAccessException, NoSuchFieldException,
+      SecurityException {
     hijackMagic("URL", newUrl);
   }
 
-  public static void revertUrl() throws IllegalAccessException, NoSuchFieldException, SecurityException {
+  public static void revertUrl() throws IllegalAccessException, NoSuchFieldException,
+      SecurityException {
     hijackMagic("URL", URL);
   }
 
-  public static void changeUrl2(String newUrl) throws IllegalAccessException, NoSuchFieldException, SecurityException {
+  public static void changeUrl2(String newUrl) throws IllegalAccessException, NoSuchFieldException,
+      SecurityException {
     hijackMagic("URL2", newUrl);
   }
 
-  public static void revertUrl2() throws IllegalAccessException, NoSuchFieldException, SecurityException {
+  public static void revertUrl2() throws IllegalAccessException, NoSuchFieldException,
+      SecurityException {
     hijackMagic("URL2", URL2);
   }
 
-  private static void hijackMagic(String fieldName, String fieldValue) throws IllegalAccessException, NoSuchFieldException, SecurityException {
+  private static void hijackMagic(String fieldName, String fieldValue) throws
+      IllegalAccessException, NoSuchFieldException, SecurityException {
     Field field = Magic.class.getField(fieldName);
     field.setAccessible(true);
 

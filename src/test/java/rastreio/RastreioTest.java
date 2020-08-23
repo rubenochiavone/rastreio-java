@@ -1,13 +1,16 @@
 package rastreio;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.io.IOException;
 import java.util.Calendar;
-
 import okhttp3.OkHttpClient;
-
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class RastreioTest {
   @Test
@@ -21,7 +24,7 @@ public class RastreioTest {
       
         @Override
         public void onSuccess(TrackObject trackObject) {
-          synchronized(syncObject) {
+          synchronized (syncObject) {
             syncObject.notify();
           }
 
@@ -36,7 +39,7 @@ public class RastreioTest {
       
         @Override
         public void onFailure(Exception e) {
-          synchronized(syncObject) {
+          synchronized (syncObject) {
             syncObject.notify();
           }
 
@@ -44,7 +47,7 @@ public class RastreioTest {
         }
       });
 
-      synchronized(syncObject) {
+      synchronized (syncObject) {
         syncObject.wait(syncTimeout);
       }
     } catch (Exception e) {
@@ -54,6 +57,8 @@ public class RastreioTest {
 
   @Test
   public void testTrackSync() {
+    final Calendar calendar = Calendar.getInstance();
+
     try {
       TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
 
@@ -89,7 +94,8 @@ public class RastreioTest {
       assertEquals("LB107580877SG", trackObject.getCode());
       assertEquals(TrackObjectServiceType.LB, trackObject.getServiceType());
       assertEquals("LB", trackObject.getServiceType().getInitials());
-      assertEquals("LOGÍSTICA REVERSA SIMULTÂNEA SEDEX", trackObject.getServiceType().getDescription());
+      assertEquals("LOGÍSTICA REVERSA SIMULTÂNEA SEDEX",
+          trackObject.getServiceType().getDescription());
       assertFalse(trackObject.isValid());
       assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
     } catch (IOException e) {
@@ -98,8 +104,6 @@ public class RastreioTest {
 
     try {
       TrackObject trackObject = Rastreio.trackSync("RH117939038TR");
-
-      Calendar calendar = Calendar.getInstance();
 
       assertNotNull(trackObject);
       assertEquals("RH117939038TR", trackObject.getCode());
@@ -142,8 +146,6 @@ public class RastreioTest {
     try {
       TrackObject trackObject = Rastreio.trackSync("LO823618663CN");
 
-      Calendar calendar = Calendar.getInstance();
-
       assertNotNull(trackObject);
       assertEquals("LO823618663CN", trackObject.getCode());
       assertEquals(TrackObjectServiceType.UNKNOWN, trackObject.getServiceType());
@@ -171,7 +173,9 @@ public class RastreioTest {
       event = trackObject.getEvents().get(5);
       assertNotNull(event);
       assertEquals("Objeto encaminhado", event.getDescription());
-      assertEquals("de Unidade de Distribuição em CURITIBA / PR para Unidade de Tratamento em CAJAMAR / SP", event.getDetails());
+      assertEquals(
+          "de Unidade de Distribuição em CURITIBA / PR para Unidade de Tratamento em CAJAMAR / SP",
+          event.getDetails());
       assertEquals("CURITIBA / PR", event.getLocale());
       calendar.set(2020, 2, 17, 14, 59, 0);
       calendar.set(Calendar.MILLISECOND, 0);
@@ -180,7 +184,9 @@ public class RastreioTest {
       event = trackObject.getEvents().get(7);
       assertNotNull(event);
       assertEquals("Objeto encaminhado", event.getDescription());
-      assertEquals("de Unidade de Tratamento em RECIFE / PE para Agência dos Correios em Extremoz / RN", event.getDetails());
+      assertEquals(
+          "de Unidade de Tratamento em RECIFE / PE para Agência dos Correios em Extremoz / RN",
+          event.getDetails());
       assertEquals("RECIFE / PE", event.getLocale());
       calendar.set(2020, 2, 23, 22, 40, 0);
       calendar.set(Calendar.MILLISECOND, 0);
@@ -201,13 +207,12 @@ public class RastreioTest {
     try {
       TrackObject trackObject = Rastreio.trackSync("LX639826650CN");
 
-      Calendar calendar = Calendar.getInstance();
-
       assertNotNull(trackObject);
       assertEquals("LX639826650CN", trackObject.getCode());
       assertEquals(TrackObjectServiceType.LX, trackObject.getServiceType());
       assertEquals("LX", trackObject.getServiceType().getInitials());
-      assertEquals("OBJETO INTERNACIONAL PACKET ECONOMIC", trackObject.getServiceType().getDescription());
+      assertEquals("OBJETO INTERNACIONAL PACKET ECONOMIC",
+          trackObject.getServiceType().getDescription());
       assertTrue(trackObject.isValid());
       assertTrue(trackObject.isDelivered());
       assertEquals(Error.NO_ERROR, trackObject.getError());
@@ -232,7 +237,9 @@ public class RastreioTest {
       event = trackObject.getEvents().get(7);
       assertNotNull(event);
       assertEquals("Objeto encaminhado", event.getDescription());
-      assertEquals("de Unidade de Tratamento em RECIFE / PE para Agência dos Correios em Extremoz / RN", event.getDetails());
+      assertEquals(
+          "de Unidade de Tratamento em RECIFE / PE para Agência dos Correios em Extremoz / RN",
+          event.getDetails());
       assertEquals("RECIFE / PE", event.getLocale());
       calendar.set(2020, 3, 1, 21, 17, 0);
       calendar.set(Calendar.MILLISECOND, 0);

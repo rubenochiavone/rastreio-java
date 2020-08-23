@@ -1,11 +1,10 @@
 package rastreio;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import java.util.ArrayList;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -14,7 +13,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,7 +36,8 @@ public class DefaultImplementation implements Implementation {
       @Override
       public void onResponse(Call call, Response response) throws IOException {
         if (response == null || !response.isSuccessful()) {
-          listener.onFailure(new IOException("Rastreio.track: erroneous HTTP response " + response));
+          listener.onFailure(new IOException("Rastreio.track: erroneous HTTP response "
+              + response));
         }
         try (ResponseBody responseBody = response.body()) {
           // Parse response and notify listener about new tacking object
@@ -71,13 +70,13 @@ public class DefaultImplementation implements Implementation {
    */
   private static Request newRequest(String objectCode) {
     RequestBody formBody = new FormBody.Builder()
-      .add("objetos", objectCode)
-      .build();
+        .add("objetos", objectCode)
+        .build();
 
     Request request = new Request.Builder()
-      .url(Magic.URL)
-      .post(formBody)
-      .build();
+        .url(Magic.URL)
+        .post(formBody)
+        .build();
     
     return request;
   }
@@ -114,13 +113,6 @@ public class DefaultImplementation implements Implementation {
     ArrayList<TrackObject.Event> events = new ArrayList<TrackObject.Event>();
 
     for (Element eventListItem : elements.first().getElementsByTag("tr")) {
-      // Event data
-      String locale = null;
-      String description = null;
-      String details = null;
-      String eventDate = null;
-      String eventTime = null;
-
       elements = eventListItem.getElementsByTag("td");
 
       if (elements.size() != 2) {
@@ -128,21 +120,24 @@ public class DefaultImplementation implements Implementation {
         continue; // Skip invalid table row
       }
 
-      Element eventListFirstData = elements.first();
-      Element eventListLastData = elements.last();
+      final Element eventListFirstData = elements.first();
+      final Element eventListLastData = elements.last();
 
       String eventListFirstDataHtml = eventListFirstData.html();
       String[] eventListFirstDataPieces = eventListFirstDataHtml.trim().split("<br>");
 
       if (eventListFirstDataPieces.length != 3) {
-        System.out.println("Rastreio.parseResponse: couldn't parse first table data element properly");
+        System.out
+            .println("Rastreio.parseResponse: couldn't parse first table data element properly");
         continue; // Skip invalid table row
       }
 
-      eventDate = eventListFirstDataPieces[0].trim();
-      eventTime = eventListFirstDataPieces[1].trim();
+      String eventDate = eventListFirstDataPieces[0].trim();
+      String eventTime = eventListFirstDataPieces[1].trim();
 
       elements = eventListFirstData.getElementsByTag("label");
+
+      String locale = null;
 
       if (!elements.isEmpty()) {
         locale = elements.first().text().trim();
@@ -155,6 +150,8 @@ public class DefaultImplementation implements Implementation {
 
       elements = eventListLastData.getElementsByTag("strong");
 
+      String description = null;
+
       if (!elements.isEmpty()) {
         // Get `strong` node content
         description = elements.first().text().trim();
@@ -164,9 +161,12 @@ public class DefaultImplementation implements Implementation {
       } 
       
       if (description == null || description.isEmpty()) {
-        System.out.println("Rastreio.parseResponse: couldn't parse last table data element properly");
+        System.out
+            .println("Rastreio.parseResponse: couldn't parse last table data element properly");
         continue; // Skip invalid table row
       }
+
+      String details = null;
 
       if (eventListLastDataPieces.length > 1) {
         // Get second string element as event details

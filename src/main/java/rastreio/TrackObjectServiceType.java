@@ -1115,6 +1115,7 @@ public enum TrackObjectServiceType {
   }
 
   /**
+   * Return service type initials.
    * @return service type initials
    */
   public String getInitials() {
@@ -1122,6 +1123,7 @@ public enum TrackObjectServiceType {
   }
 
   /**
+   * Return service type description.
    * @return service type description
    */
   public String getDescription() {
