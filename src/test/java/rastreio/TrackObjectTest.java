@@ -1,7 +1,10 @@
 package rastreio;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class TrackObjectTest {
   @Test
@@ -32,7 +35,8 @@ public class TrackObjectTest {
     assertFalse(TrackObject.Code.validate(""));
     assertFalse(TrackObject.Code.validate("ab999cd"));
     assertFalse(TrackObject.Code.validate("AB12345678CD"));
-    assertFalse(TrackObject.Code.validate("Lorem Ipsum is simply dummy text of the printing and typesetting industry."));
+    assertFalse(TrackObject.Code.validate(
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry."));
 
     // Valid object codes
     assertTrue(TrackObject.Code.validate("AB123456789CD"));

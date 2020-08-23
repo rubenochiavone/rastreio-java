@@ -9,35 +9,35 @@ import java.util.regex.Pattern;
  */
 public class TrackObject {
   /**
-   * Tracking object code
+   * Tracking object code.
    */
   private String mCode;
   /**
-   * Tracking object service type
+   * Tracking object service type.
    */
   private TrackObjectServiceType mServiceType;
   /**
-   * Whether this tracking object is valid
+   * Whether this tracking object is valid.
    */
   private boolean mIsValid;
   /**
-   * Whether this tracking object was delivered
+   * Whether this tracking object was delivered.
    */
   private boolean mIsDelivered;
   /**
-   * Date this tracking object was posted
+   * Date this tracking object was posted.
    */
   private Date mPostedAt;
   /**
-   * Last time this tracking object was updated
+   * Last time this tracking object was updated.
    */
   private Date mUpdatedAt;
   /**
-   * List of events that occurred to this tracking object
+   * List of events that occurred to this tracking object.
    */
   private ArrayList<Event> mEvents;
   /**
-   * Error code
+   * Error code.
    */
   private Error mError;
 
@@ -199,25 +199,25 @@ public class TrackObject {
   /**
    * Tracking object event.
    * 
-   * It represents any event that happened with a tracking object.
+   * <p>It represents any event that happened with a tracking object.</p>
    * 
    * @see TrackObject
    */
   public static class Event {
     /**
-     * Locale of this event
+     * Locale of this event.
      */
     private String mLocale;
     /**
-     * Event description
+     * Event description.
      */
     private String mDescription;
     /**
-     * Event description details
+     * Event description details.
      */
     private String mDetails;
     /**
-     * Time when this event happened
+     * Time when this event happened.
      */
     private Date mTrackedAt;
 

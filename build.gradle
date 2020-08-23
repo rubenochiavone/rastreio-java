@@ -6,6 +6,8 @@ plugins {
     // Apply Maven and JFrog Bintray plugins to publish project
     id 'maven-publish'
     id 'com.jfrog.bintray' version '1.8.4'
+    // Linter plugin
+    id 'checkstyle'
 }
 
 repositories {
@@ -114,5 +116,18 @@ bintray {
         version {
             name = '1.0.4'
         }
+    }
+}
+
+// Checkstyle configuration
+checkstyle {
+    maxWarnings 0
+    toolVersion '8.35'
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
     }
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * Get tracking object data by scrapping Correios' HTML server response.
  * 
- * Example of tracking an object in another thread:
+ * <p>Example of tracking an object in another thread:</p>
  * 
  * <pre>
  *   Rastreio.track("JT124720455BR", new Rastreio.Listener() {
@@ -20,9 +20,9 @@ import java.io.IOException;
  *   });
  * </pre>
  * 
- * See {@link Rastreio#track(String, Listener)} for more information.
+ * <p>See {@link Rastreio#track(String, Listener)} for more information.</p>
  * 
- * Also it is possible to wait until operation is completed in the same thread:
+ * <p>Also it is possible to wait until operation is completed in the same thread:</p>
  * 
  * <pre>
  *   try {
@@ -34,7 +34,7 @@ import java.io.IOException;
  *   }
  * </pre>
  * 
- * See {@link Rastreio#trackSync(String)} for more information.
+ * <p>See {@link Rastreio#trackSync(String)} for more information.</p>
  * 
  * @see Listener
  * @see TrackObject
@@ -47,7 +47,7 @@ public class Rastreio {
   /**
    * Track an object by its code asynchronously.
    * 
-   * When track operation finishes listener is called with result.
+   * <p>When track operation finishes listener is called with result.</p>
    * 
    * @param objectCode string representing object track code
    * @param listener listener to be called when object tracking is completed
@@ -71,10 +71,10 @@ public class Rastreio {
    * Track an object by its code synchronously.
    * 
    * @param objectCode string representing object track code
+   * @return new tracking object to query tracking data
    * @throws IOException if an network error occur
    * @throws NullPointerException if {@code objectCode} is null
    * @throws IllegalArgumentException if {@code objectCode} is empty or invalid
-   * @return new tracking object to query tracking data
    */
   public static TrackObject trackSync(String objectCode) throws IOException {
     if (objectCode == null) {
@@ -92,7 +92,9 @@ public class Rastreio {
    * 
    * @param implementation rastreio implementation to be used
    * @throws NullPointerException if {@code implementation} is null
-   * @see Implementation, DefaultImplementation, EnhancedImplementation
+   * @see Implementation
+   * @see DefaultImplementation
+   * @see EnhancedImplementation
    */
   public static void setImplementation(Implementation implementation) {
     if (implementation == null) {

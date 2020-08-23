@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Cookie;
@@ -27,9 +26,9 @@ public class EnhancedImplementation implements Implementation {
 
   static {
     HTTP_CLIENT = new OkHttpClient.Builder()
-      .cookieJar(new InMemoryCookieJar())
-      .followRedirects(true)
-      .build();
+        .cookieJar(new InMemoryCookieJar())
+        .followRedirects(true)
+        .build();
   }
 
   @Override
@@ -43,11 +42,13 @@ public class EnhancedImplementation implements Implementation {
       @Override
       public void onResponse(Call call, Response response) throws IOException {
         if (response == null || !response.isSuccessful()) {
-          listener.onFailure(new IOException("Rastreio.track: erroneous HTTP response " + response));
+          listener.onFailure(
+                new IOException("Rastreio.track: erroneous HTTP response " + response));
         }
         try (ResponseBody responseBody = response.body()) {
           // Parse response and notify listener about new tacking object
-          listener.onSuccess(DefaultImplementation.parseResponse(objectCode, responseBody.string()));
+          listener.onSuccess(DefaultImplementation.parseResponse(objectCode,
+              responseBody.string()));
         } catch (IOException e) {
           listener.onFailure(new Exception("Rastreio.track: unable to fullfill HTTP request", e));
         }
@@ -83,14 +84,14 @@ public class EnhancedImplementation implements Implementation {
    */
   private static Request newRequest(String objectCode) {
     RequestBody formBody = new FormBody.Builder()
-      .add("objetos", objectCode)
-      .add("acao", "track")
-      .build();
+        .add("objetos", objectCode)
+        .add("acao", "track")
+        .build();
 
     Request request = new Request.Builder()
-      .url(Magic.URL2)
-      .post(formBody)
-      .build();
+        .url(Magic.URL2)
+        .post(formBody)
+        .build();
 
     // Clear cookie jar before each request
     if (HTTP_CLIENT.cookieJar() instanceof InMemoryCookieJar) {
