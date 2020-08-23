@@ -21,8 +21,14 @@ build:
     paths:
       - build/libs/*.jar
     expire_in: 1 week
-  only:
-    - master
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: $CI_COMMIT_TAG
+      when: always
+    - changes:
+      - '**/*.gradle'
+      - src/**/*
+      when: always
 
 test:
   stage: test
@@ -31,14 +37,38 @@ test:
     - ./gradlew check --info -PexcludeTests=**/RastreioTest.class
     - ./gradlew jacocoTestReport
     - cat build/jacocoHtml/index.html | grep -o '<tfoot>.*</tfoot>'
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: $CI_COMMIT_TAG
+      when: on_success
+    - changes:
+      - '**/*.gradle'
+      - src/**/*
+      when: on_success
 
 staging:
   stage: test
   script:
     - ./gradlew check --info -PincludeTests=**/RastreioTest.class
   allow_failure: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: $CI_COMMIT_TAG
+      when: on_success
+    - changes:
+      - '**/*.gradle'
+      - src/**/*
+      when: on_success
 
 publish:
   stage: publish
   script:
     - ./gradlew publishToMavenLocal
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: $CI_COMMIT_TAG
+      when: on_success
+    - when: manual
+
+# TODO: publish to gh-pages
+# TODO: deploy artifacts
