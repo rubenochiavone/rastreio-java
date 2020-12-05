@@ -87,7 +87,7 @@ public class DefaultImplementation implements Implementation {
    * @param response response data to be parsed
    * @return new tracking object
    */
-  public static TrackObject parseResponse(String objectCode, String response) {
+  private TrackObject parseResponse(String objectCode, String response) {
     TrackObjectServiceType serviceType = TrackObjectServiceType.UNKNOWN;
 
     try {
