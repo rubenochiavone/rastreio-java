@@ -54,7 +54,6 @@ public class Rastreio {
    * @throws NullPointerException if {@code objectCode} or {@code listener} is null
    * @throws IllegalArgumentException if {@code objectCode} is empty or invalid
    * @see Listener
-   * @see TrackObject
    */
   public static void track(String objectCode, Listener listener) {
     if (objectCode == null || listener == null) {
@@ -75,6 +74,7 @@ public class Rastreio {
    * @throws IOException if an network error occur
    * @throws NullPointerException if {@code objectCode} is null
    * @throws IllegalArgumentException if {@code objectCode} is empty or invalid
+   * @see TrackObject
    */
   public static TrackObject trackSync(String objectCode) throws IOException {
     if (objectCode == null) {
@@ -110,12 +110,14 @@ public class Rastreio {
     /**
      * Called when object tracking is completed with success.
      * @param trackObject tracking object result
+     * @see TrackObject
      */
     void onSuccess(TrackObject trackObject);
 
     /**
      * Called when object tracking fails.
      * @param exception failure explanation
+     * @see TrackObject
      */
     void onFailure(Exception exception);
   }
