@@ -47,56 +47,6 @@ public class RastreioMockedTest {
 
   @Test
   public void testTrack() {
-    Rastreio.Listener dummyListener = new Rastreio.Listener() {
-      @Override
-      public void onSuccess(TrackObject trackObject) {
-      }
-
-      @Override
-      public void onFailure(Exception e) {
-      }
-    };
-
-    try {
-      Rastreio.track(null, dummyListener);
-
-      fail("Should have thrown NullPointerException");
-    } catch (NullPointerException e) {
-      assertTrue(true);
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-
-    try {
-      Rastreio.track("JT124720455BR", null);
-
-      fail("Should have thrown NullPointerException");
-    } catch (NullPointerException e) {
-      assertTrue(true);
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-
-    try {
-      Rastreio.track("", dummyListener);
-
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      assertTrue(true);
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-
-    try {
-      Rastreio.track("invalid", dummyListener);
-
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      assertTrue(true);
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-
     final long syncTimeout = 2000L;
 
     try {
@@ -138,265 +88,248 @@ public class RastreioMockedTest {
       fail(e.getMessage());
     }
 
-    // Kill mocked server to simulate server down
-    try {
-      Util.tearDownMockWebServer(mMockWebServer, true);
-      mMockWebServer = null;
+    Implementation[] implementations = new Implementation[] {
+      new EnhancedImplementation(),
+      new DefaultImplementation()
+    };
 
-      final Object syncObject = new Object();
-
-      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
-      
-        @Override
-        public void onSuccess(TrackObject trackObject) {
-          synchronized (syncObject) {
-            syncObject.notify();
-          }
-
-          fail("Tracking object without server configured should NOT succeed");
-        }
-      
-        @Override
-        public void onFailure(Exception e) {
-          synchronized (syncObject) {
-            syncObject.notify();
-          }
-
-          assertNotNull(e);
-          assertNotNull(e.getMessage());
-        }
-      });
-
-      synchronized (syncObject) {
-        syncObject.wait(syncTimeout);
+    for (Implementation implementation : implementations) {
+      try {
+        Rastreio.setImplementation(implementation);
+      } catch (Exception e) {
+        fail(e.getMessage());
       }
 
-      // Restart mocked server
-      mMockWebServer = Util.setupMockWebServer();
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
+      // Kill mocked server to simulate server down
+      try {
+        Util.tearDownMockWebServer(mMockWebServer, true);
+        mMockWebServer = null;
 
-    // Mock response to cover edge cases
-    try {
-      final Object syncObject = new Object();
+        final Object syncObject = new Object();
 
-      Util.enqueueMockResponseFromFile(mMockWebServer, "mocked.html");
+        Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+        
+          @Override
+          public void onSuccess(TrackObject trackObject) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
 
-      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
-      
-        @Override
-        public void onSuccess(TrackObject trackObject) {
-          synchronized (syncObject) {
-            syncObject.notify();
+            fail("Tracking object without server configured should NOT succeed");
           }
+        
+          @Override
+          public void onFailure(Exception e) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
 
-          assertNotNull(trackObject);
-          assertEquals("JT124720455BR", trackObject.getCode());
-          assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
-          assertEquals("JT", trackObject.getServiceType().getInitials());
-          assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
-          assertFalse(trackObject.isValid());
-          assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
-          assertNull(trackObject.getEvents());
-        }
-      
-        @Override
-        public void onFailure(Exception e) {
-          synchronized (syncObject) {
-            syncObject.notify();
+            assertNotNull(e);
+            assertNotNull(e.getMessage());
           }
+        });
 
-          fail(e.getMessage());
+        synchronized (syncObject) {
+          syncObject.wait(syncTimeout);
         }
-      });
 
-      synchronized (syncObject) {
-        syncObject.wait(syncTimeout);
+        // Restart mocked server
+        mMockWebServer = Util.setupMockWebServer();
+      } catch (Exception e) {
+        fail(e.getMessage());
       }
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
 
-    // Force unexpected response
-    try {
-      final Object syncObject = new Object();
+      // Mock response to cover edge cases
+      try {
+        final Object syncObject = new Object();
 
-      Util.enqueueMockResponseFromFile(mMockWebServer, "invalid.txt");
+        Util.enqueueMockResponseFromFile(mMockWebServer, "mocked.html");
 
-      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
-      
-        @Override
-        public void onSuccess(TrackObject trackObject) {
-          synchronized (syncObject) {
-            syncObject.notify();
+        Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+        
+          @Override
+          public void onSuccess(TrackObject trackObject) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
+
+            assertNotNull(trackObject);
+            assertEquals("JT124720455BR", trackObject.getCode());
+            assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+            assertEquals("JT", trackObject.getServiceType().getInitials());
+            assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
+            assertFalse(trackObject.isValid());
+            assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
+            assertNull(trackObject.getEvents());
           }
+        
+          @Override
+          public void onFailure(Exception e) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
 
-          assertNotNull(trackObject);
-          assertEquals("JT124720455BR", trackObject.getCode());
-          assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
-          assertEquals("JT", trackObject.getServiceType().getInitials());
-          assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
-          assertFalse(trackObject.isValid());
-          assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
-        }
-      
-        @Override
-        public void onFailure(Exception e) {
-          synchronized (syncObject) {
-            syncObject.notify();
+            fail(e.getMessage());
           }
+        });
 
-          fail(e.getMessage());
+        synchronized (syncObject) {
+          syncObject.wait(syncTimeout);
         }
-      });
-
-      synchronized (syncObject) {
-        syncObject.wait(syncTimeout);
+      } catch (Exception e) {
+        fail(e.getMessage());
       }
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
 
-    // Force server response with 500 status code
-    try {
-      final Object syncObject = new Object();
+      // Force unexpected response
+      try {
+        final Object syncObject = new Object();
 
-      Util.enqueueMockResponseFromStatusCode(mMockWebServer, 500);
+        Util.enqueueMockResponseFromFile(mMockWebServer, "invalid.txt");
 
-      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
-      
-        @Override
-        public void onSuccess(TrackObject trackObject) {
-          synchronized (syncObject) {
-            syncObject.notify();
+        Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+        
+          @Override
+          public void onSuccess(TrackObject trackObject) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
+
+            assertNotNull(trackObject);
+            assertEquals("JT124720455BR", trackObject.getCode());
+            assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+            assertEquals("JT", trackObject.getServiceType().getInitials());
+            assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
+            assertFalse(trackObject.isValid());
+            assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
           }
+        
+          @Override
+          public void onFailure(Exception e) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
 
-          fail("Tracking object with 5xx status code should NOT succeed");
-        }
-      
-        @Override
-        public void onFailure(Exception e) {
-          synchronized (syncObject) {
-            syncObject.notify();
+            fail(e.getMessage());
           }
+        });
 
-          assertNotNull(e);
-          assertNotNull(e.getMessage());
+        synchronized (syncObject) {
+          syncObject.wait(syncTimeout);
         }
-      });
-
-      synchronized (syncObject) {
-        syncObject.wait(syncTimeout);
+      } catch (Exception e) {
+        fail(e.getMessage());
       }
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
 
-    // Force server response timeout
-    try {
-      final Object syncObject = new Object();
+      // Force server response with 500 status code
+      try {
+        final Object syncObject = new Object();
 
-      Util.enqueueMockResponseWithNoResponse(mMockWebServer);
+        Util.enqueueMockResponseFromStatusCode(mMockWebServer, 500);
 
-      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
-      
-        @Override
-        public void onSuccess(TrackObject trackObject) {
-          synchronized (syncObject) {
-            syncObject.notify();
+        Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+        
+          @Override
+          public void onSuccess(TrackObject trackObject) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
+
+            fail("Tracking object with 5xx status code should NOT succeed");
           }
+        
+          @Override
+          public void onFailure(Exception e) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
 
-          fail("Tracking object with no response should NOT succeed");
-        }
-      
-        @Override
-        public void onFailure(Exception e) {
-          synchronized (syncObject) {
-            syncObject.notify();
+            assertNotNull(e);
+            assertNotNull(e.getMessage());
           }
+        });
 
-          assertNotNull(e);
-          assertNotNull(e.getMessage());
+        synchronized (syncObject) {
+          syncObject.wait(syncTimeout);
         }
-      });
-
-      synchronized (syncObject) {
-        syncObject.wait(syncTimeout);
+      } catch (Exception e) {
+        fail(e.getMessage());
       }
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
 
-    // Force no body at server response
-    try {
-      final Object syncObject = new Object();
+      // Force server response timeout
+      try {
+        final Object syncObject = new Object();
 
-      Util.enqueueMockResponseWithNoResponseBody(mMockWebServer);
+        Util.enqueueMockResponseWithNoResponse(mMockWebServer);
 
-      Rastreio.track("JT124720455BR", new Rastreio.Listener() {
-      
-        @Override
-        public void onSuccess(TrackObject trackObject) {
-          synchronized (syncObject) {
-            syncObject.notify();
+        Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+        
+          @Override
+          public void onSuccess(TrackObject trackObject) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
+
+            fail("Tracking object with no response should NOT succeed");
           }
+        
+          @Override
+          public void onFailure(Exception e) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
 
-          fail("Tracking object with no response body should NOT succeed");
-        }
-      
-        @Override
-        public void onFailure(Exception e) {
-          synchronized (syncObject) {
-            syncObject.notify();
+            assertNotNull(e);
+            assertNotNull(e.getMessage());
           }
+        });
 
-          assertNotNull(e);
-          assertNotNull(e.getMessage());
+        synchronized (syncObject) {
+          syncObject.wait(syncTimeout);
         }
-      });
-
-      synchronized (syncObject) {
-        syncObject.wait(syncTimeout);
+      } catch (Exception e) {
+        fail(e.getMessage());
       }
-    } catch (Exception e) {
-      fail(e.getMessage());
+
+      // Force no body at server response
+      try {
+        final Object syncObject = new Object();
+
+        Util.enqueueMockResponseWithNoResponseBody(mMockWebServer);
+
+        Rastreio.track("JT124720455BR", new Rastreio.Listener() {
+        
+          @Override
+          public void onSuccess(TrackObject trackObject) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
+
+            fail("Tracking object with no response body should NOT succeed");
+          }
+        
+          @Override
+          public void onFailure(Exception e) {
+            synchronized (syncObject) {
+              syncObject.notify();
+            }
+
+            assertNotNull(e);
+            assertNotNull(e.getMessage());
+          }
+        });
+
+        synchronized (syncObject) {
+          syncObject.wait(syncTimeout);
+        }
+      } catch (Exception e) {
+        fail(e.getMessage());
+      }
     }
   }
 
   @Test
   public void testTrackSync() {
     final Calendar calendar = Calendar.getInstance();
-
-    try {
-      Rastreio.trackSync(null);
-
-      fail("Should have thrown NullPointerException");
-    } catch (NullPointerException e) {
-      assertTrue(true);
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-
-    try {
-      Rastreio.trackSync("");
-
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      assertTrue(true);
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
-
-    try {
-      Rastreio.trackSync("invalid");
-
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException e) {
-      assertTrue(true);
-    } catch (IOException e) {
-      fail(e.getMessage());
-    }
 
     try {
       Util.enqueueMockResponseFromFile(mMockWebServer, "JT124720455BR.html");
@@ -1032,116 +965,239 @@ public class RastreioMockedTest {
       fail(e.getMessage());
     }
 
-    // Kill mocked server to simulate server down
     try {
-      Util.tearDownMockWebServer(mMockWebServer, true);
-      mMockWebServer = null;
+      Rastreio.setImplementation(new EnhancedImplementation());
     } catch (Exception e) {
       fail(e.getMessage());
     }
 
     try {
-      Rastreio.trackSync("LB679011587SE");
-      fail("Tracking object without server configured should NOT succeed");
-    } catch (IOException e) {
-      assertNotNull(e);
-      assertNotNull(e.getMessage());
-    }
-
-    // Restart mocked server
-    try {
-      mMockWebServer = Util.setupMockWebServer();
+      Util.enqueueMockResponseFromFile(mMockWebServer, "LB941561336SE_new.html");
     } catch (Exception e) {
-      fail(e.getMessage());
-    }
-    
-
-    // Mock response to cover edge cases
-    try {
-      Util.enqueueMockResponseFromFile(mMockWebServer, "mocked.html");
-    } catch (Exception e) {
+      e.printStackTrace();
       fail(e.getMessage());
     }
 
     try {
-      TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
+      TrackObject trackObject = Rastreio.trackSync("LB941561336SE");
 
       assertNotNull(trackObject);
-      assertEquals("JT124720455BR", trackObject.getCode());
-      assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
-      assertEquals("JT", trackObject.getServiceType().getInitials());
-      assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
-      assertFalse(trackObject.isValid());
-      assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
-      assertNull(trackObject.getEvents());
+      assertEquals("LB941561336SE", trackObject.getCode());
+      assertEquals("LB", trackObject.getServiceType().getInitials());
+      assertEquals("LOGÍSTICA REVERSA SIMULTÂNEA SEDEX",
+          trackObject.getServiceType().getDescription());
+      assertTrue(trackObject.isValid());
+      assertTrue(trackObject.isDelivered());
+      assertEquals(Error.NO_ERROR, trackObject.getError());
+      calendar.set(2020, 11, 12, 9, 56, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getPostedAt());
+      calendar.set(2021, 0, 11, 15, 17, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
+      assertNotNull(trackObject.getEvents());
+      assertEquals(8, trackObject.getEvents().size());
+      // First event
+      TrackObject.Event event = trackObject.getEvents().get(0);
+      assertNotNull(event);
+      assertEquals("Objeto recebido pelos Correios do Brasil", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("CURITIBA / PR", event.getLocale());
+      calendar.set(2020, 11, 12, 9, 56, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(7);
+      assertNotNull(event);
+      assertEquals("Objeto entregue ao destinatário",
+          event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("Extremoz / RN", event.getLocale());
+      calendar.set(2021, 0, 11, 15, 17, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
     } catch (IOException e) {
       fail(e.getMessage());
     }
 
-    // Force unexpected response
     try {
-      Util.enqueueMockResponseFromFile(mMockWebServer, "invalid.txt");
+      Rastreio.setImplementation(new DefaultImplementation());
     } catch (Exception e) {
       fail(e.getMessage());
     }
 
     try {
-      TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
+      Util.enqueueMockResponseFromFile(mMockWebServer, "LB941561336SE_old.html");
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail(e.getMessage());
+    }
+
+    try {
+      TrackObject trackObject = Rastreio.trackSync("LB941561336SE");
 
       assertNotNull(trackObject);
-      assertEquals("JT124720455BR", trackObject.getCode());
-      assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
-      assertEquals("JT", trackObject.getServiceType().getInitials());
-      assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
-      assertFalse(trackObject.isValid());
-      assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
+      assertEquals("LB941561336SE", trackObject.getCode());
+      assertEquals("LB", trackObject.getServiceType().getInitials());
+      assertEquals("LOGÍSTICA REVERSA SIMULTÂNEA SEDEX",
+          trackObject.getServiceType().getDescription());
+      assertTrue(trackObject.isValid());
+      assertTrue(trackObject.isDelivered());
+      assertEquals(Error.NO_ERROR, trackObject.getError());
+      calendar.set(2020, 11, 12, 9, 56, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getPostedAt());
+      calendar.set(2021, 0, 11, 15, 17, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
+      assertNotNull(trackObject.getEvents());
+      assertEquals(8, trackObject.getEvents().size());
+      // First event
+      TrackObject.Event event = trackObject.getEvents().get(0);
+      assertNotNull(event);
+      assertEquals("Objeto recebido pelos Correios do Brasil", event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("CURITIBA / PR", event.getLocale());
+      calendar.set(2020, 11, 12, 9, 56, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
+      // Last event
+      event = trackObject.getEvents().get(7);
+      assertNotNull(event);
+      assertEquals("Objeto entregue ao destinatário",
+          event.getDescription());
+      assertNull(event.getDetails());
+      assertEquals("Extremoz / RN", event.getLocale());
+      calendar.set(2021, 0, 11, 15, 17, 0);
+      calendar.set(Calendar.MILLISECOND, 0);
+      assertEquals(calendar.getTime(), event.getTrackedAt());
     } catch (IOException e) {
       fail(e.getMessage());
     }
 
-    // Force server response with 500 status code
-    try {
-      Util.enqueueMockResponseFromStatusCode(mMockWebServer, 500);
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
+    Implementation[] implementations = new Implementation[] {
+      new EnhancedImplementation(),
+      new DefaultImplementation()
+    };
 
-    try {
-      Rastreio.trackSync("LB679011587SE");
-      fail("Tracking object with 5xx status code should NOT succeed");
-    } catch (IOException e) {
-      assertNotNull(e);
-      assertNotNull(e.getMessage());
-    }
+    for (Implementation implementation : implementations) {
+      try {
+        Rastreio.setImplementation(implementation);
+      } catch (Exception e) {
+        fail(e.getMessage());
+      }
 
-    // Force server response timeout
-    try {
-      Util.enqueueMockResponseWithNoResponse(mMockWebServer);
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
+      // Kill mocked server to simulate server down
+      try {
+        Util.tearDownMockWebServer(mMockWebServer, true);
+        mMockWebServer = null;
+      } catch (Exception e) {
+        fail(e.getMessage());
+      }
 
-    try {
-      Rastreio.trackSync("LB679011587SE");
-      fail("Tracking object with no response should NOT succeed");
-    } catch (IOException e) {
-      assertNotNull(e);
-      assertNotNull(e.getMessage());
-    }
+      try {
+        Rastreio.trackSync("LB679011587SE");
+        fail("Tracking object without server configured should NOT succeed");
+      } catch (IOException e) {
+        assertNotNull(e);
+        assertNotNull(e.getMessage());
+      }
 
-    // Force no body at server response
-    try {
-      Util.enqueueMockResponseWithNoResponseBody(mMockWebServer);
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
+      // Restart mocked server
+      try {
+        mMockWebServer = Util.setupMockWebServer();
+      } catch (Exception e) {
+        fail(e.getMessage());
+      }
+      
 
-    try {
-      Rastreio.trackSync("LB679011587SE");
-      fail("Tracking object with no response body should NOT succeed");
-    } catch (IOException e) {
-      assertNotNull(e);
-      assertNotNull(e.getMessage());
+      // Mock response to cover edge cases
+      try {
+        Util.enqueueMockResponseFromFile(mMockWebServer, "mocked.html");
+      } catch (Exception e) {
+        fail(e.getMessage());
+      }
+
+      try {
+        TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
+
+        assertNotNull(trackObject);
+        assertEquals("JT124720455BR", trackObject.getCode());
+        assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+        assertEquals("JT", trackObject.getServiceType().getInitials());
+        assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
+        assertFalse(trackObject.isValid());
+        assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
+        assertNull(trackObject.getEvents());
+      } catch (IOException e) {
+        fail(e.getMessage());
+      }
+
+      // Force unexpected response
+      try {
+        Util.enqueueMockResponseFromFile(mMockWebServer, "invalid.txt");
+      } catch (Exception e) {
+        fail(e.getMessage());
+      }
+
+      try {
+        TrackObject trackObject = Rastreio.trackSync("JT124720455BR");
+
+        assertNotNull(trackObject);
+        assertEquals("JT124720455BR", trackObject.getCode());
+        assertEquals(TrackObjectServiceType.JT, trackObject.getServiceType());
+        assertEquals("JT", trackObject.getServiceType().getInitials());
+        assertEquals("REGISTRADO URGENTE", trackObject.getServiceType().getDescription());
+        assertFalse(trackObject.isValid());
+        assertEquals(Error.OBJECT_NOT_FOUND, trackObject.getError());
+      } catch (IOException e) {
+        fail(e.getMessage());
+      }
+
+      // Force server response with 500 status code
+      try {
+        Util.enqueueMockResponseFromStatusCode(mMockWebServer, 500);
+      } catch (Exception e) {
+        fail(e.getMessage());
+      }
+
+      try {
+        Rastreio.trackSync("LB679011587SE");
+        fail("Tracking object with 5xx status code should NOT succeed");
+      } catch (IOException e) {
+        assertNotNull(e);
+        assertNotNull(e.getMessage());
+      }
+
+      // Force server response timeout
+      try {
+        Util.enqueueMockResponseWithNoResponse(mMockWebServer);
+      } catch (Exception e) {
+        fail(e.getMessage());
+      }
+
+      try {
+        Rastreio.trackSync("LB679011587SE");
+        fail("Tracking object with no response should NOT succeed");
+      } catch (IOException e) {
+        assertNotNull(e);
+        assertNotNull(e.getMessage());
+      }
+
+      // Force no body at server response
+      try {
+        Util.enqueueMockResponseWithNoResponseBody(mMockWebServer);
+      } catch (Exception e) {
+        fail(e.getMessage());
+      }
+
+      try {
+        Rastreio.trackSync("LB679011587SE");
+        fail("Tracking object with no response body should NOT succeed");
+      } catch (IOException e) {
+        assertNotNull(e);
+        assertNotNull(e.getMessage());
+      }
     }
   }
 }

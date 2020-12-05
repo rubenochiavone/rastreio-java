@@ -19,6 +19,7 @@ class Util {
 
     // Change Magic.URL to use server URL
     HijackMagic.changeUrl(server.url("").toString());
+    HijackMagic.changeUrl2(server.url("").toString());
 
     return server;
   }
@@ -33,6 +34,7 @@ class Util {
 
     // Change Magic.URL to use server URL
     HijackMagic.changeUrl(server.url("").toString());
+    HijackMagic.changeUrl2(server.url("").toString());
 
     return server;
   }
@@ -58,6 +60,7 @@ class Util {
     // Revert Magic.URL back to original
     try {
       HijackMagic.revertUrl();
+      HijackMagic.revertUrl2();
     } catch (Exception e) {
       // Ignore exception
     }
