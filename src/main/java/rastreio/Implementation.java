@@ -11,8 +11,7 @@ public interface Implementation {
    * 
    * @param objectCode string representing object track code
    * @param listener listener to be called when object tracking is completed
-   * @see Listener
-   * @see TrackObject
+   * @see Rastreio.Listener
    */
   void track(String objectCode, Rastreio.Listener listener);
 
@@ -21,7 +20,8 @@ public interface Implementation {
    * 
    * @param objectCode string representing object track code
    * @return new tracking object to query tracking data
-   * @throws IOException if a network error occur
+   * @throws java.io.IOException if a network error occur
+   * @see TrackObject
    */
   TrackObject trackSync(String objectCode) throws java.io.IOException;
 }
