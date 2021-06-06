@@ -6,15 +6,15 @@ import {Title} from '@angular/platform-browser';
 })
 export class GettingStarted {
   langGroovy = ['groovy'];
-  buildGradleSnippet = `implementation 'java.rastreio:rastreio:1.0.4'`;
+  buildGradleSnippet = `implementation 'java.rastreio:rastreio:1.1.0'`;
   langXml = ['xml'];
   pomXmlSnippet = `<dependency>
   <groupId>java.rastreio</groupId>
   <artifactId>rastreio</artifactId>
-  <version>1.0.4</version>
+  <version>1.1.0</version>
   <type>pom</type>
 </dependency>`;
-  ivyXmlSnippet = `<dependency org='java.rastreio' name='rastreio' rev='1.0.4'>
+  ivyXmlSnippet = `<dependency org='java.rastreio' name='rastreio' rev='1.1.0'>
   <artifact name='rastreio' ext='pom' ></artifact>
 </dependency>`;
   langJava = ['java'];
