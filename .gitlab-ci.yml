@@ -3,6 +3,7 @@ image: java:8-jdk
 stages:
   - build
   - test
+  - staging
   - publish
 
 before_script:
@@ -62,7 +63,7 @@ test:
       when: on_success
 
 staging:
-  stage: test
+  stage: staging
   script:
     - ./gradlew test --info -PincludeTests=**/RastreioTest.class
   allow_failure: true
@@ -75,8 +76,8 @@ staging:
       - src/**/*
       when: on_success
 
-publish:
-  stage: publish
+checkpublish:
+  stage: staging
   script:
     - ./gradlew publishToMavenLocal
   rules:
@@ -85,5 +86,13 @@ publish:
       when: on_success
     - when: manual
 
+publish:
+  stage: publish
+  script:
+    - ./gradlew publish
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: on_success
+    - when: never
+
 # TODO: publish to gh-pages
-# TODO: deploy artifacts
