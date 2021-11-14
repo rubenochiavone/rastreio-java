@@ -1,14 +1,13 @@
 package rastreio;
 
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.inject.Inject;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Cookie;
@@ -28,20 +27,25 @@ import org.jsoup.select.Elements;
 /**
  * Enhanced implementation using OkHttp and Jsoup (from DefaultImplementation).
  */
-public class EnhancedImplementation implements Implementation {
-  private static final OkHttpClient HTTP_CLIENT;
-  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss SSS");
+@Deprecated
+public class EnhancedImplementation extends Implementation {
 
-  static {
-    HTTP_CLIENT = new OkHttpClient.Builder()
+  @Inject
+  private Magic mMagic;
+
+  /**
+   * Create a new object.
+   */
+  public EnhancedImplementation() {
+    super(new OkHttpClient.Builder()
         .cookieJar(new InMemoryCookieJar())
         .followRedirects(true)
-        .build();
+        .build());
   }
 
   @Override
   public void track(String objectCode, Rastreio.Listener listener) {
-    HTTP_CLIENT.newCall(newRequest(objectCode)).enqueue(new Callback() {
+    mHttpClient.newCall(newRequest(objectCode)).enqueue(new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
         listener.onFailure(new Exception("Rastreio.track: unable to fullfill HTTP request", e));
@@ -60,8 +64,8 @@ public class EnhancedImplementation implements Implementation {
           listener.onFailure(new Exception("Rastreio.track: unable to fullfill HTTP request", e));
         }
         // Clear cookie jar after each response
-        if (HTTP_CLIENT.cookieJar() instanceof InMemoryCookieJar) {
-          ((InMemoryCookieJar) HTTP_CLIENT.cookieJar()).clear();
+        if (mHttpClient.cookieJar() instanceof InMemoryCookieJar) {
+          ((InMemoryCookieJar) mHttpClient.cookieJar()).clear();
         }
       }
     });
@@ -69,13 +73,13 @@ public class EnhancedImplementation implements Implementation {
 
   @Override
   public TrackObject trackSync(String objectCode) throws IOException {
-    try (Response response = HTTP_CLIENT.newCall(newRequest(objectCode)).execute()) {
+    try (Response response = mHttpClient.newCall(newRequest(objectCode)).execute()) {
       if (response == null || !response.isSuccessful()) {
         throw new IOException("Rastreio.trackSync: erroneous HTTP response code " + response);
       }
       // Clear cookie jar after each response
-      if (HTTP_CLIENT.cookieJar() instanceof InMemoryCookieJar) {
-        ((InMemoryCookieJar) HTTP_CLIENT.cookieJar()).clear();
+      if (mHttpClient.cookieJar() instanceof InMemoryCookieJar) {
+        ((InMemoryCookieJar) mHttpClient.cookieJar()).clear();
       }
       // Parse response and return new tacking object
       return parseResponse(objectCode, response.body().string());
@@ -89,20 +93,21 @@ public class EnhancedImplementation implements Implementation {
    * @param objectCode tracking object code
    * @return new request object
    */
-  private static Request newRequest(String objectCode) {
+  @Override
+  protected Request newRequest(String objectCode) {
     RequestBody formBody = new FormBody.Builder()
         .add("objetos", objectCode)
         .add("acao", "track")
         .build();
 
     Request request = new Request.Builder()
-        .url(Magic.URL2)
+        .url(mMagic.getUrl2())
         .post(formBody)
         .build();
 
     // Clear cookie jar before each request
-    if (HTTP_CLIENT.cookieJar() instanceof InMemoryCookieJar) {
-      ((InMemoryCookieJar) HTTP_CLIENT.cookieJar()).clear();
+    if (mHttpClient.cookieJar() instanceof InMemoryCookieJar) {
+      ((InMemoryCookieJar) mHttpClient.cookieJar()).clear();
     }
 
     return request;
@@ -114,7 +119,8 @@ public class EnhancedImplementation implements Implementation {
    * @param response response data to be parsed
    * @return new tracking object
    */
-  private TrackObject parseResponse(String objectCode, String response) {
+  @Override
+  protected TrackObject parseResponse(String objectCode, String response) {
     TrackObjectServiceType serviceType = TrackObjectServiceType.UNKNOWN;
 
     try {

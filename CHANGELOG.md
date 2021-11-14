@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Implementation for Link&Track API, LinkETrackImplementation
+- Support for dependency injection
+- Mockito support
+- Deprecate EnhancedImplementation and DefaultImplementation
+
 ## [1.1.0] - 2021-06-06
 ### Changed
 

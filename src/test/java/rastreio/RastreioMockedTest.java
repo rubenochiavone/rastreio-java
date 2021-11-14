@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeNotNull;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -13,25 +14,50 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 /**
  * Rastreio test using mock infrastructure.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class RastreioMockedTest {
   MockWebServer mMockWebServer = null;
 
+  @Mock
+  private Magic mMagic;
+
+  @InjectMocks
+  private EnhancedImplementation mEnhancedImplementation;
+
+  @InjectMocks
+  private DefaultImplementation mDefaultImplementation;
+  
+  @InjectMocks
+  private LinkETrackImplementation mLinkETrackImplementation;
+
+  @InjectMocks
+  private Util mUtil;
+
   /**
    * Configures mocked web server to run.
+   * @throws Exception exception initializing mocked web server.  
    */
   @Before
-  public void setupServer() {
+  public void setupServer() throws Exception {
+    Rastreio.setImplementation(mDefaultImplementation);
     assertNull(mMockWebServer);
-    try {
-      mMockWebServer = Util.setupMockWebServer();
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
+    mMockWebServer = mUtil.setupMockWebServer();
     assertNotNull(mMockWebServer);
+
+    try {
+      mLinkETrackImplementation.setUrlToken(Util.getResourceFileAsString("url_token.txt"));
+    } catch (Exception e) {
+      mLinkETrackImplementation = null;
+      System.out.println("LinkETrack tests disabled due inexistent URL file");
+    }
   }
 
   /**
@@ -40,7 +66,7 @@ public class RastreioMockedTest {
   @After
   public void tearDownServer() {
     assertNotNull(mMockWebServer);
-    Util.tearDownMockWebServer(mMockWebServer);
+    mUtil.tearDownMockWebServer(mMockWebServer);
     mMockWebServer = null;
     assertNull(mMockWebServer);
   }
@@ -89,8 +115,8 @@ public class RastreioMockedTest {
     }
 
     Implementation[] implementations = new Implementation[] {
-      new EnhancedImplementation(),
-      new DefaultImplementation()
+      mEnhancedImplementation,
+      mDefaultImplementation
     };
 
     for (Implementation implementation : implementations) {
@@ -102,7 +128,7 @@ public class RastreioMockedTest {
 
       // Kill mocked server to simulate server down
       try {
-        Util.tearDownMockWebServer(mMockWebServer, true);
+        mUtil.tearDownMockWebServer(mMockWebServer);
         mMockWebServer = null;
 
         final Object syncObject = new Object();
@@ -134,7 +160,7 @@ public class RastreioMockedTest {
         }
 
         // Restart mocked server
-        mMockWebServer = Util.setupMockWebServer();
+        mMockWebServer = mUtil.setupMockWebServer();
       } catch (Exception e) {
         fail(e.getMessage());
       }
@@ -966,7 +992,7 @@ public class RastreioMockedTest {
     }
 
     try {
-      Rastreio.setImplementation(new EnhancedImplementation());
+      Rastreio.setImplementation(mEnhancedImplementation);
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -1021,7 +1047,7 @@ public class RastreioMockedTest {
     }
 
     try {
-      Rastreio.setImplementation(new DefaultImplementation());
+      Rastreio.setImplementation(mDefaultImplementation);
     } catch (Exception e) {
       fail(e.getMessage());
     }
@@ -1076,8 +1102,8 @@ public class RastreioMockedTest {
     }
 
     Implementation[] implementations = new Implementation[] {
-      new EnhancedImplementation(),
-      new DefaultImplementation()
+      mEnhancedImplementation,
+      mDefaultImplementation
     };
 
     for (Implementation implementation : implementations) {
@@ -1089,7 +1115,7 @@ public class RastreioMockedTest {
 
       // Kill mocked server to simulate server down
       try {
-        Util.tearDownMockWebServer(mMockWebServer, true);
+        mUtil.tearDownMockWebServer(mMockWebServer);
         mMockWebServer = null;
       } catch (Exception e) {
         fail(e.getMessage());
@@ -1105,7 +1131,7 @@ public class RastreioMockedTest {
 
       // Restart mocked server
       try {
-        mMockWebServer = Util.setupMockWebServer();
+        mMockWebServer = mUtil.setupMockWebServer();
       } catch (Exception e) {
         fail(e.getMessage());
       }
@@ -1199,5 +1225,52 @@ public class RastreioMockedTest {
         assertNotNull(e.getMessage());
       }
     }
+  }
+  
+  @Test
+  public void linkETrackSuccess() throws Exception {
+    assumeNotNull(mLinkETrackImplementation);
+
+    Rastreio.setImplementation(mLinkETrackImplementation);
+    Util.enqueueMockResponseFromFile(mMockWebServer, "QG961780962BR_linketrack.html");
+
+    TrackObject trackObject = Rastreio.trackSync("QG961780962BR");
+    final Calendar calendar = Calendar.getInstance();
+
+    assertNotNull(trackObject);
+    assertEquals("QG961780962BR", trackObject.getCode());
+    assertEquals("QG", trackObject.getServiceType().getInitials());
+    assertEquals("ETIQUETA LÓGICA PAC",
+        trackObject.getServiceType().getDescription());
+    assertTrue(trackObject.isValid());
+    assertTrue(trackObject.isDelivered());
+    assertEquals(Error.NO_ERROR, trackObject.getError());
+    calendar.set(2021, 8, 16, 19, 49, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    assertEquals(calendar.getTime(), trackObject.getPostedAt());
+    calendar.set(2021, 8, 27, 12, 23, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    assertEquals(calendar.getTime(), trackObject.getUpdatedAt());
+    assertNotNull(trackObject.getEvents());
+    assertEquals(6, trackObject.getEvents().size());
+    // First event
+    TrackObject.Event event = trackObject.getEvents().get(0);
+    assertNotNull(event);
+    assertEquals("Objeto postado após o horário limite da unidade", event.getDescription());
+    assertNull(event.getDetails());
+    assertEquals("Agência dos Correios/SAO PAULO/SP", event.getLocale());
+    calendar.set(2021, 8, 16, 19, 49, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    assertEquals(calendar.getTime(), event.getTrackedAt());
+    // Last event
+    event = trackObject.getEvents().get(5);
+    assertNotNull(event);
+    assertEquals("Objeto entregue ao destinatário",
+        event.getDescription());
+    assertNull(event.getDetails());
+    assertEquals("Agência dos Correios/Extremoz/RN", event.getLocale());
+    calendar.set(2021, 8, 27, 12, 23, 0);
+    calendar.set(Calendar.MILLISECOND, 0);
+    assertEquals(calendar.getTime(), event.getTrackedAt());
   }
 }
