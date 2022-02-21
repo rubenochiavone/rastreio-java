@@ -18,10 +18,18 @@ repositories {
 dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     implementation 'org.jsoup:jsoup:1.13.1'
+    implementation 'org.json:json:20210307'
+
+    // Dependency injection
+    implementation 'javax.inject:javax.inject:1'
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.squareup.okhttp3:mockwebserver:4.9.1'
+
+    // Mockito
+    testImplementation 'org.mockito:mockito-core:4.0.0'
+    testImplementation 'net.bytebuddy:byte-buddy:1.11.20'
 }
 
 test {

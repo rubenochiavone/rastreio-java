@@ -1,18 +1,11 @@
 package rastreio;
 
-import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import okhttp3.Call;
-import okhttp3.Callback;
+import javax.inject.Inject;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,60 +14,25 @@ import org.jsoup.select.Elements;
 /**
  * Default implementation using OkHttp and Jsoup.
  */
-public class DefaultImplementation implements Implementation {
-  private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
-  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss SSS");
+@Deprecated
+public class DefaultImplementation extends Implementation {
 
-  @Override
-  public void track(String objectCode, Rastreio.Listener listener) {
-    HTTP_CLIENT.newCall(newRequest(objectCode)).enqueue(new Callback() {
-      @Override
-      public void onFailure(Call call, IOException e) {
-        listener.onFailure(new Exception("Rastreio.track: unable to fullfill HTTP request", e));
-      }
-
-      @Override
-      public void onResponse(Call call, Response response) throws IOException {
-        if (response == null || !response.isSuccessful()) {
-          listener.onFailure(new IOException("Rastreio.track: erroneous HTTP response "
-              + response));
-        }
-        try (ResponseBody responseBody = response.body()) {
-          // Parse response and notify listener about new tacking object
-          listener.onSuccess(parseResponse(objectCode, responseBody.string()));
-        } catch (IOException e) {
-          listener.onFailure(new Exception("Rastreio.track: unable to fullfill HTTP request", e));
-        }
-      }
-    });
-  }
-
-  @Override
-  public TrackObject trackSync(String objectCode) throws IOException {
-    try (Response response = HTTP_CLIENT.newCall(newRequest(objectCode)).execute()) {
-      if (response == null || !response.isSuccessful()) {
-        throw new IOException("Rastreio.trackSync: erroneous HTTP response code " + response);
-      }
-
-      // Parse response and return new tacking object
-      return parseResponse(objectCode, response.body().string());
-    } catch (IOException e) {
-      throw new IOException("Rastreio.trackSync: unable to fullfill HTTP request", e);
-    }
-  }
+  @Inject
+  private Magic mMagic;
 
   /**
    * Create new request object.
    * @param objectCode tracking object code
    * @return new request object
    */
-  private static Request newRequest(String objectCode) {
+  @Override
+  protected Request newRequest(String objectCode) {
     RequestBody formBody = new FormBody.Builder()
         .add("objetos", objectCode)
         .build();
 
     Request request = new Request.Builder()
-        .url(Magic.URL)
+        .url(mMagic.getUrl())
         .post(formBody)
         .build();
     
@@ -87,7 +45,7 @@ public class DefaultImplementation implements Implementation {
    * @param response response data to be parsed
    * @return new tracking object
    */
-  private TrackObject parseResponse(String objectCode, String response) {
+  protected TrackObject parseResponse(String objectCode, String response) {
     TrackObjectServiceType serviceType = TrackObjectServiceType.UNKNOWN;
 
     try {

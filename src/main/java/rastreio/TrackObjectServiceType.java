@@ -838,6 +838,10 @@ public enum TrackObjectServiceType {
    */
   PX("PX", "ETIQUETA LÓGICA PAC"),
   /**
+   * QG - ETIQUETA LÓGICA PAC.
+   */
+  QG("QG", "ETIQUETA LÓGICA PAC"),
+  /**
    * RA - REGISTRADO PRIORITÁRIO.
    */
   RA("RA", "REGISTRADO PRIORITÁRIO"),

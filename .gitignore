@@ -10,3 +10,6 @@ bin
 # Ignore some docs files
 docs/node_modules
 docs/dist
+
+# Private file
+src/test/resources/url_token.txt
