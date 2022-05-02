@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update okhttp to 4.9.3
+- Update jsoup to 1.14.3
 
 ## [1.1.0] - 2021-06-06
 ### Changed
